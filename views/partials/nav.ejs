@@ -1,0 +1,47 @@
+<nav class="nav-sticky">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="material-symbols-outlined nav-logo-icon">sync</span>
+      Virae
+    </a>
+
+    <div class="nav-links">
+      <% const navLinks = [
+        { id: 'pdf', label: 'PDF', href: '/#pdf' },
+        { id: 'image', label: 'Imagem', href: '/#imagem' },
+        { id: 'gif', label: 'GIF', href: '/#gif' },
+        { id: 'audio', label: 'Áudio', href: '/#audio' },
+        { id: 'video', label: 'Vídeo', href: '/#video' },
+        { id: 'ai', label: 'IA', href: '/#ia' }
+      ]; %>
+      <% navLinks.forEach(function(cat) { %>
+        <a
+          href="<%= cat.href %>"
+          class="nav-link<%= (typeof activeCategory !== 'undefined' && activeCategory === cat.id) ? ' nav-link-active' : '' %>"
+        >
+          <%= cat.label %>
+        </a>
+      <% }); %>
+    </div>
+
+    <div class="nav-actions">
+      <a href="/auth/subscribe" class="btn-pro">Assine PRO</a>
+      <button class="nav-hamburger" aria-label="Menu" id="navHamburger">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <% navLinks.forEach(function(cat) { %>
+      <a
+        href="<%= cat.href %>"
+        class="nav-mobile-link<%= (typeof activeCategory !== 'undefined' && activeCategory === cat.id) ? ' nav-link-active' : '' %>"
+      >
+        <%= cat.label %>
+      </a>
+    <% }); %>
+    <a href="/auth/subscribe" class="btn-pro nav-mobile-pro">Assine PRO</a>
+  </div>
+</nav>

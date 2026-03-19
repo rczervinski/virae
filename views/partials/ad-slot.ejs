@@ -1,0 +1,16 @@
+<% if (typeof user === 'undefined' || !user || !user.isPro) { %>
+<section class="ad-slot-section">
+  <div class="ad-slot" id="<%= typeof slotId !== 'undefined' ? slotId : 'ad-slot' %>">
+    <span class="ad-label">Publicidade</span>
+    <!-- Google AdSense placeholder
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+      data-ad-slot="<%= typeof adSlotId !== 'undefined' ? adSlotId : '0000000000' %>"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+</section>
+<% } %>

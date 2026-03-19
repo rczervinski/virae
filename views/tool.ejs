@@ -1,0 +1,403 @@
+<%
+  // Helper: find category object
+  const allCategories = typeof categories !== 'undefined' ? categories : [];
+  const toolCategory = allCategories.find(c => c.id === tool.category) || {};
+  const categoryName = toolCategory.name || tool.category;
+
+  // Helper: step icons
+  const stepIcons = ['upload_file', 'settings_suggest', 'download'];
+
+  // Helper: benefits per category (PT-BR)
+  const benefitMap = {
+    pdf: [
+      { icon: 'storage', title: 'Economize espaco', desc: 'Reduza o tamanho dos seus PDFs em ate 90% mantendo alta resolucao.', colorClass: 'benefit-icon-secondary' },
+      { icon: 'mail', title: 'Envie por e-mail', desc: 'Arquivos otimizados cabem perfeitamente nos limites de anexo.', colorClass: 'benefit-icon-primary' },
+      { icon: 'rocket_launch', title: 'Uploads rapidos', desc: 'Arquivos menores fazem upload e compartilham em segundos.', colorClass: 'benefit-icon-tertiary' },
+      { icon: 'high_quality', title: 'Mantenha a qualidade', desc: 'Algoritmos avancados preservam a nitidez de texto e imagem.', colorClass: 'benefit-icon-secondary-container' }
+    ],
+    image: [
+      { icon: 'storage', title: 'Economize armazenamento', desc: 'Imagens otimizadas ocupam menos espaco no seu dispositivo.', colorClass: 'benefit-icon-secondary' },
+      { icon: 'mail', title: 'Compartilhe facilmente', desc: 'Imagens leves para envio rapido por e-mail e mensageiros.', colorClass: 'benefit-icon-primary' },
+      { icon: 'rocket_launch', title: 'Carregamento rapido', desc: 'Imagens menores carregam mais rapido em sites e redes sociais.', colorClass: 'benefit-icon-tertiary' },
+      { icon: 'high_quality', title: 'Qualidade preservada', desc: 'Compressao inteligente sem perda visivel de qualidade.', colorClass: 'benefit-icon-secondary-container' }
+    ],
+    gif: [
+      { icon: 'storage', title: 'GIFs mais leves', desc: 'Reduza o peso dos GIFs para compartilhar em qualquer plataforma.', colorClass: 'benefit-icon-secondary' },
+      { icon: 'mail', title: 'Envie por mensagem', desc: 'GIFs compactos ideais para WhatsApp, Telegram e redes sociais.', colorClass: 'benefit-icon-primary' },
+      { icon: 'rocket_launch', title: 'Animacao fluida', desc: 'Otimizacao que mantem a fluidez da animacao.', colorClass: 'benefit-icon-tertiary' },
+      { icon: 'high_quality', title: 'Cores vibrantes', desc: 'Paleta de cores preservada mesmo apos a compressao.', colorClass: 'benefit-icon-secondary-container' }
+    ],
+    audio: [
+      { icon: 'storage', title: 'Menos espaco', desc: 'Audios compactos que cabem em qualquer dispositivo.', colorClass: 'benefit-icon-secondary' },
+      { icon: 'mail', title: 'Compartilhe facilmente', desc: 'Arquivos leves para enviar por e-mail ou mensagem.', colorClass: 'benefit-icon-primary' },
+      { icon: 'rocket_launch', title: 'Processamento rapido', desc: 'Conversao e edicao de audio em poucos segundos.', colorClass: 'benefit-icon-tertiary' },
+      { icon: 'high_quality', title: 'Som preservado', desc: 'Qualidade de audio mantida durante o processamento.', colorClass: 'benefit-icon-secondary-container' }
+    ],
+    video: [
+      { icon: 'storage', title: 'Videos menores', desc: 'Reduza drasticamente o tamanho dos seus videos.', colorClass: 'benefit-icon-secondary' },
+      { icon: 'mail', title: 'Facil de enviar', desc: 'Videos compactos para envio rapido por qualquer plataforma.', colorClass: 'benefit-icon-primary' },
+      { icon: 'rocket_launch', title: 'Upload rapido', desc: 'Publique videos mais rapido em redes sociais e plataformas.', colorClass: 'benefit-icon-tertiary' },
+      { icon: 'high_quality', title: 'Resolucao intacta', desc: 'Compressao avancada que preserva a qualidade visual.', colorClass: 'benefit-icon-secondary-container' }
+    ],
+    convert: [
+      { icon: 'storage', title: 'Formato ideal', desc: 'Converta para o formato perfeito para cada situacao.', colorClass: 'benefit-icon-secondary' },
+      { icon: 'mail', title: 'Compatibilidade total', desc: 'Arquivos compativeis com qualquer dispositivo ou programa.', colorClass: 'benefit-icon-primary' },
+      { icon: 'rocket_launch', title: 'Conversao instantanea', desc: 'Processo rapido de conversao sem instalacao.', colorClass: 'benefit-icon-tertiary' },
+      { icon: 'high_quality', title: 'Fidelidade garantida', desc: 'Formatacao e conteudo preservados na conversao.', colorClass: 'benefit-icon-secondary-container' }
+    ],
+    ai: [
+      { icon: 'storage', title: 'Automatizacao total', desc: 'Inteligencia artificial que faz o trabalho pesado por voce.', colorClass: 'benefit-icon-secondary' },
+      { icon: 'mail', title: 'Resultados precisos', desc: 'IA treinada para entregar resultados de alta precisao.', colorClass: 'benefit-icon-primary' },
+      { icon: 'rocket_launch', title: 'Super rapido', desc: 'Processamento com IA em poucos segundos.', colorClass: 'benefit-icon-tertiary' },
+      { icon: 'high_quality', title: 'Qualidade profissional', desc: 'Resultados de nivel profissional com tecnologia de ponta.', colorClass: 'benefit-icon-secondary-container' }
+    ]
+  };
+
+  const benefits = benefitMap[tool.category] || benefitMap['pdf'];
+%>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= tool.title || tool.h1 + ' — Virae' %></title>
+  <meta name="description" content="<%= tool.metaDescription || tool.description %>">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= tool.title || tool.h1 + ' — Virae' %>">
+  <meta property="og:description" content="<%= tool.metaDescription || tool.description %>">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/components.css">
+
+  <!-- JSON-LD: FAQPage -->
+  <% if (tool.faq && tool.faq.length > 0) { %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      <% tool.faq.forEach(function(item, i) { %>
+      {
+        "@type": "Question",
+        "name": "<%- item.q.replace(/"/g, '\\"') %>",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<%- item.a.replace(/"/g, '\\"') %>"
+        }
+      }<%= i < tool.faq.length - 1 ? ',' : '' %>
+      <% }); %>
+    ]
+  }
+  </script>
+  <% } %>
+
+  <!-- JSON-LD: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "<%= tool.name %>",
+    "description": "<%= tool.description %>",
+    "url": "https://virae.com.br/<%= tool.slug %>",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "BRL"
+    }
+  }
+  </script>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main class="tool-main">
+    <!-- Hero Section -->
+    <section class="tool-hero">
+      <div class="hero-glow"></div>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span class="hero-badge-text">
+          <% if (tool.isPro) { %>
+            PRO
+          <% } else { %>
+            Gratis &bull; Sem cadastro
+          <% } %>
+        </span>
+      </div>
+      <% if (tool.isAI) { %>
+        <div class="hero-badge hero-badge-ai">
+          <span class="material-symbols-outlined hero-badge-ai-icon">auto_awesome</span>
+          <span class="hero-badge-text">Inteligencia Artificial</span>
+        </div>
+      <% } %>
+      <h1 class="tool-h1"><%= tool.h1 %></h1>
+      <p class="tool-description"><%= tool.description %></p>
+    </section>
+
+    <!-- Upload Area -->
+    <%- include('partials/upload-area', { tool: tool, user: typeof user !== 'undefined' ? user : null }) %>
+
+    <!-- Options Row -->
+    <% if (tool.options && tool.options.length > 0) { %>
+    <section class="tool-options">
+      <% tool.options.forEach(function(opt) { %>
+        <% if (opt.type === 'select') { %>
+          <div class="tool-option-group">
+            <label class="tool-option-label" for="opt-<%= opt.name %>"><%= opt.label %></label>
+            <select class="tool-option-select" id="opt-<%= opt.name %>" name="<%= opt.name %>">
+              <% opt.values.forEach(function(val) { %>
+                <option value="<%= val %>" <%= val === opt.default ? 'selected' : '' %>><%= val %></option>
+              <% }); %>
+            </select>
+          </div>
+        <% } else if (opt.type === 'range') { %>
+          <div class="tool-option-group">
+            <label class="tool-option-label" for="opt-<%= opt.name %>">
+              <%= opt.label %>: <span id="opt-<%= opt.name %>-value"><%= opt.default || opt.min %></span>
+            </label>
+            <input
+              type="range"
+              class="tool-option-range"
+              id="opt-<%= opt.name %>"
+              name="<%= opt.name %>"
+              min="<%= opt.min %>"
+              max="<%= opt.max %>"
+              value="<%= opt.default || opt.min %>"
+              step="<%= opt.step || 1 %>"
+            >
+          </div>
+        <% } else if (opt.type === 'checkbox') { %>
+          <div class="tool-option-group tool-option-inline">
+            <input
+              type="checkbox"
+              class="tool-option-checkbox"
+              id="opt-<%= opt.name %>"
+              name="<%= opt.name %>"
+              <%= opt.default ? 'checked' : '' %>
+            >
+            <label class="tool-option-label" for="opt-<%= opt.name %>"><%= opt.label %></label>
+          </div>
+        <% } else if (opt.type === 'radio') { %>
+          <div class="tool-option-group">
+            <span class="tool-option-label"><%= opt.label %></span>
+            <div class="tool-option-radio-group">
+              <% opt.values.forEach(function(val) { %>
+                <label class="tool-option-radio-label">
+                  <input
+                    type="radio"
+                    class="tool-option-radio"
+                    name="<%= opt.name %>"
+                    value="<%= val %>"
+                    <%= val === opt.default ? 'checked' : '' %>
+                  >
+                  <span><%= val %></span>
+                </label>
+              <% }); %>
+            </div>
+          </div>
+        <% } else if (opt.type === 'text') { %>
+          <div class="tool-option-group">
+            <label class="tool-option-label" for="opt-<%= opt.name %>"><%= opt.label %></label>
+            <input
+              type="text"
+              class="tool-option-input"
+              id="opt-<%= opt.name %>"
+              name="<%= opt.name %>"
+              value="<%= opt.default || '' %>"
+              placeholder="<%= opt.placeholder || '' %>"
+            >
+          </div>
+        <% } else if (opt.type === 'password') { %>
+          <div class="tool-option-group">
+            <label class="tool-option-label" for="opt-<%= opt.name %>"><%= opt.label %></label>
+            <input
+              type="password"
+              class="tool-option-input"
+              id="opt-<%= opt.name %>"
+              name="<%= opt.name %>"
+              placeholder="<%= opt.placeholder || '' %>"
+              autocomplete="off"
+            >
+          </div>
+        <% } else if (opt.type === 'number') { %>
+          <div class="tool-option-group">
+            <label class="tool-option-label" for="opt-<%= opt.name %>"><%= opt.label %></label>
+            <input
+              type="number"
+              class="tool-option-input"
+              id="opt-<%= opt.name %>"
+              name="<%= opt.name %>"
+              value="<%= opt.default || '' %>"
+              min="<%= opt.min || '' %>"
+              max="<%= opt.max || '' %>"
+              step="<%= opt.step || 1 %>"
+            >
+          </div>
+        <% } else if (opt.type === 'color') { %>
+          <div class="tool-option-group">
+            <label class="tool-option-label" for="opt-<%= opt.name %>"><%= opt.label %></label>
+            <input
+              type="color"
+              class="tool-option-color"
+              id="opt-<%= opt.name %>"
+              name="<%= opt.name %>"
+              value="<%= opt.default || '#000000' %>"
+            >
+          </div>
+        <% } else if (opt.type === 'hidden') { %>
+          <input type="hidden" id="opt-<%= opt.name %>" name="<%= opt.name %>" value="<%= opt.default || '' %>">
+        <% } else if (opt.type === 'info') { %>
+          <div class="tool-option-info">
+            <span class="material-symbols-outlined">info</span>
+            <span><%= opt.label %></span>
+          </div>
+        <% } %>
+      <% }); %>
+
+      <% if (tool.slug === 'assinar-pdf') { %>
+      <!-- Signature Pad -->
+      <div class="signature-pad-wrapper">
+        <label class="tool-option-label">Desenhe sua assinatura</label>
+        <div class="signature-pad-container">
+          <canvas id="signatureCanvas" class="signature-canvas" width="500" height="200"></canvas>
+          <div class="signature-pad-actions">
+            <button type="button" class="signature-pad-btn" id="sigClear">
+              <span class="material-symbols-outlined">delete</span> Limpar
+            </button>
+            <button type="button" class="signature-pad-btn signature-pad-btn-color" id="sigColorBlack" data-color="#000000">Preto</button>
+            <button type="button" class="signature-pad-btn signature-pad-btn-color" id="sigColorBlue" data-color="#1a237e">Azul</button>
+          </div>
+        </div>
+        <input type="hidden" id="opt-signatureData" name="signatureData" value="">
+      </div>
+      <% } %>
+
+      <button
+        class="btn-process"
+        id="btnProcess"
+        data-slug="<%= tool.slug %>"
+        data-service="<%= tool.processorService %>"
+        data-method="<%= tool.processorMethod %>"
+      >
+        Processar <%= categoryName %>
+      </button>
+    </section>
+    <% } else { %>
+    <section class="tool-options">
+      <button
+        class="btn-process"
+        id="btnProcess"
+        data-slug="<%= tool.slug %>"
+        data-service="<%= tool.processorService %>"
+        data-method="<%= tool.processorMethod %>"
+      >
+        Processar <%= categoryName %>
+      </button>
+    </section>
+    <% } %>
+
+    <!-- Ad Slot Top -->
+    <%- include('partials/ad-slot', { slotId: 'ad-top', adSlotId: '1000000001', user: typeof user !== 'undefined' ? user : null }) %>
+
+    <!-- Result Area -->
+    <%- include('partials/tool-result') %>
+
+    <!-- How It Works -->
+    <% if (tool.steps && tool.steps.length > 0) { %>
+    <section class="how-it-works">
+      <h2 class="section-title">Como funciona?</h2>
+      <div class="steps-grid">
+        <% tool.steps.forEach(function(step, index) { %>
+          <div class="step-card">
+            <div class="step-bg-icon">
+              <span class="material-symbols-outlined"><%= stepIcons[index] || 'check_circle' %></span>
+            </div>
+            <div class="step-number"><%= index + 1 %></div>
+            <h4 class="step-title"><%= step %></h4>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Why Use -->
+    <section class="why-use">
+      <h2 class="section-title">Por que usar?</h2>
+      <div class="benefits-grid">
+        <% benefits.forEach(function(b) { %>
+          <div class="benefit-card">
+            <div class="benefit-icon-wrapper <%= b.colorClass %>">
+              <span class="material-symbols-outlined"><%= b.icon %></span>
+            </div>
+            <div class="benefit-text">
+              <h4 class="benefit-title"><%= b.title %></h4>
+              <p class="benefit-desc"><%= b.desc %></p>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <% if (tool.faq && tool.faq.length > 0) { %>
+    <section class="faq-section">
+      <h2 class="section-title">Perguntas frequentes</h2>
+      <div class="faq-list">
+        <% tool.faq.forEach(function(item) { %>
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span><%= item.q %></span>
+              <span class="material-symbols-outlined faq-chevron">expand_more</span>
+            </summary>
+            <div class="faq-answer">
+              <p><%= item.a %></p>
+            </div>
+          </details>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Ad Slot Middle -->
+    <%- include('partials/ad-slot', { slotId: 'ad-middle', adSlotId: '1000000002', user: typeof user !== 'undefined' ? user : null }) %>
+
+    <!-- Related Tools -->
+    <% if (tool.relatedTools && tool.relatedTools.length > 0 && typeof allTools !== 'undefined') { %>
+    <section class="related-tools">
+      <h2 class="section-title">Ferramentas relacionadas</h2>
+      <div class="related-grid">
+        <% tool.relatedTools.forEach(function(relSlug) {
+          const relTool = allTools.find(t => t.slug === relSlug);
+          if (relTool) {
+            const relCat = allCategories.find(c => c.id === relTool.category) || {};
+        %>
+          <a href="/<%= relTool.slug %>" class="related-card">
+            <div class="related-icon-wrapper" style="background-color: <%= relCat.color || '#6c5ce7' %>20;">
+              <span class="material-symbols-outlined" style="color: <%= relCat.color || '#6c5ce7' %>;">build</span>
+            </div>
+            <span class="related-name"><%= relTool.name %></span>
+          </a>
+        <% } }); %>
+      </div>
+    </section>
+    <% } %>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/upload.js" defer></script>
+</body>
+</html>

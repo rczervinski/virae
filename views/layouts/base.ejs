@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Virae — Ferramentas de arquivos online gratis' %></title>
+  <meta name="description" content="<%= typeof metaDescription !== 'undefined' ? metaDescription : 'Ferramentas online gratuitas para PDF, imagem, GIF, audio e video. Sem instalacao, sem cadastro.' %>">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= typeof title !== 'undefined' ? title : 'Virae — Ferramentas de arquivos online gratis' %>">
+  <meta property="og:description" content="<%= typeof metaDescription !== 'undefined' ? metaDescription : 'Ferramentas online gratuitas para PDF, imagem, GIF, audio e video.' %>">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/components.css">
+
+  <!-- JSON-LD -->
+  <% if (typeof jsonLd !== 'undefined' && jsonLd) { %>
+    <%- jsonLd %>
+  <% } %>
+</head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <%- body %>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/js/upload.js" defer></script>
+</body>
+</html>

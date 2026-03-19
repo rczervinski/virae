@@ -1,0 +1,234 @@
+<%
+  // Category icon map for Material Symbols
+  const categoryIconMap = {
+    pdf: 'picture_as_pdf',
+    image: 'image',
+    gif: 'gif_box',
+    audio: 'audiotrack',
+    video: 'videocam',
+    convert: 'swap_horiz',
+    ai: 'auto_awesome'
+  };
+%>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virae — Todas as ferramentas para seus arquivos</title>
+  <meta name="description" content="Ferramentas online gratuitas para PDF, imagem, GIF, audio e video. Mais de 80 ferramentas sem instalacao e sem cadastro.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Virae — Todas as ferramentas para seus arquivos">
+  <meta property="og:description" content="Ferramentas online gratuitas para PDF, imagem, GIF, audio e video. Sem instalacao, sem cadastro.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/components.css">
+
+  <!-- JSON-LD: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Virae",
+    "url": "https://virae.com.br",
+    "description": "Ferramentas online gratuitas para PDF, imagem, GIF, audio e video.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://virae.com.br/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main class="index-main">
+    <!-- Hero Section -->
+    <section class="index-hero">
+      <div class="hero-glow"></div>
+      <h1 class="index-h1">Todas as ferramentas. Um so lugar.</h1>
+      <p class="index-subtitle">Converta, comprima e edite seus arquivos direto no navegador.</p>
+
+      <!-- Search -->
+      <div class="index-search-wrapper">
+        <span class="material-symbols-outlined index-search-icon">search</span>
+        <input
+          type="text"
+          class="index-search"
+          id="toolSearch"
+          placeholder="Buscar ferramentas..."
+          autocomplete="off"
+        >
+      </div>
+
+      <!-- Stats -->
+      <div class="index-stats">
+        <span class="index-stat">80+ ferramentas</span>
+        <span class="index-stat-sep">&bull;</span>
+        <span class="index-stat">Sem instalacao</span>
+        <span class="index-stat-sep">&bull;</span>
+        <span class="index-stat">Arquivos apagados em 1h</span>
+      </div>
+    </section>
+
+    <!-- Tool Categories -->
+    <% if (typeof categories !== 'undefined' && typeof grouped !== 'undefined') { %>
+      <% let catIndex = 0; %>
+      <% categories.forEach(function(cat) { %>
+        <% const catTools = grouped[cat.id]; %>
+        <% if (catTools && catTools.length > 0) { %>
+          <section class="category-section" id="<%= cat.slug %>" data-category="<%= cat.id %>">
+            <div class="category-header">
+              <span class="material-symbols-outlined category-icon" style="color: <%= cat.color %>;">
+                <%= categoryIconMap[cat.id] || 'build' %>
+              </span>
+              <h2 class="category-title"><%= cat.name %></h2>
+              <span class="category-count"><%= catTools.length %> ferramentas</span>
+            </div>
+
+            <div class="tools-grid">
+              <% catTools.forEach(function(t) { %>
+                <a href="/<%= t.slug %>" class="tool-card" data-name="<%= t.name.toLowerCase() %>" data-desc="<%= (t.description || '').toLowerCase() %>">
+                  <div class="tool-card-icon" style="background-color: <%= cat.color %>15;">
+                    <span class="material-symbols-outlined" style="color: <%= cat.color %>;">
+                      <%= categoryIconMap[cat.id] || 'build' %>
+                    </span>
+                  </div>
+                  <div class="tool-card-text">
+                    <span class="tool-card-name"><%= t.name %></span>
+                    <span class="tool-card-desc"><%= t.description || '' %></span>
+                  </div>
+                  <% if (t.isPro) { %>
+                    <span class="tool-card-badge badge-pro">PRO</span>
+                  <% } %>
+                  <% if (t.isAI) { %>
+                    <span class="tool-card-badge badge-ai">IA</span>
+                  <% } %>
+                </a>
+              <% }); %>
+            </div>
+          </section>
+
+          <% catIndex++; %>
+          <% if (catIndex === 2 || catIndex === 5) { %>
+            <%- include('partials/ad-slot', { slotId: 'ad-cat-' + catIndex, adSlotId: '200000000' + catIndex, user: typeof user !== 'undefined' ? user : null }) %>
+          <% } %>
+        <% } %>
+      <% }); %>
+    <% } %>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+      <h2 class="section-title">Gratis vs PRO</h2>
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3 class="pricing-plan-name">Gratis</h3>
+            <p class="pricing-price">R$ 0</p>
+          </div>
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <span class="material-symbols-outlined pricing-check">check</span>
+              Limite de 50MB por arquivo
+            </li>
+            <li class="pricing-feature">
+              <span class="material-symbols-outlined pricing-check">check</span>
+              Todas as ferramentas basicas
+            </li>
+            <li class="pricing-feature pricing-feature-disabled">
+              <span class="material-symbols-outlined pricing-x">close</span>
+              Contem anuncios
+            </li>
+            <li class="pricing-feature pricing-feature-disabled">
+              <span class="material-symbols-outlined pricing-x">close</span>
+              Limite de requisicoes
+            </li>
+            <li class="pricing-feature pricing-feature-disabled">
+              <span class="material-symbols-outlined pricing-x">close</span>
+              Sem ferramentas de IA avancadas
+            </li>
+          </ul>
+        </div>
+
+        <!-- PRO -->
+        <div class="pricing-card pricing-card-pro">
+          <div class="pricing-badge-popular">Mais popular</div>
+          <div class="pricing-header">
+            <h3 class="pricing-plan-name">PRO</h3>
+            <p class="pricing-price">R$ 9,90<span class="pricing-period">/mes</span></p>
+          </div>
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <span class="material-symbols-outlined pricing-check">check</span>
+              Limite de 500MB por arquivo
+            </li>
+            <li class="pricing-feature">
+              <span class="material-symbols-outlined pricing-check">check</span>
+              Todas as ferramentas (incluindo IA)
+            </li>
+            <li class="pricing-feature">
+              <span class="material-symbols-outlined pricing-check">check</span>
+              Sem anuncios
+            </li>
+            <li class="pricing-feature">
+              <span class="material-symbols-outlined pricing-check">check</span>
+              Sem limites de requisicoes
+            </li>
+            <li class="pricing-feature">
+              <span class="material-symbols-outlined pricing-check">check</span>
+              Ferramentas de IA exclusivas
+            </li>
+          </ul>
+          <a href="/auth/subscribe" class="btn-process pricing-cta">Assinar PRO</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/upload.js" defer></script>
+  <script>
+    // Client-side tool search filter
+    document.addEventListener('DOMContentLoaded', function() {
+      var searchInput = document.getElementById('toolSearch');
+      if (!searchInput) return;
+
+      searchInput.addEventListener('input', function() {
+        var query = this.value.toLowerCase().trim();
+        var cards = document.querySelectorAll('.tool-card');
+        var sections = document.querySelectorAll('.category-section');
+
+        cards.forEach(function(card) {
+          var name = card.getAttribute('data-name') || '';
+          var desc = card.getAttribute('data-desc') || '';
+          if (!query || name.indexOf(query) !== -1 || desc.indexOf(query) !== -1) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Hide empty category sections
+        sections.forEach(function(section) {
+          var visibleCards = section.querySelectorAll('.tool-card:not([style*="display: none"])');
+          section.style.display = visibleCards.length === 0 ? 'none' : '';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

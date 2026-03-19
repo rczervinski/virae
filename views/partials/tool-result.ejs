@@ -1,0 +1,38 @@
+<section class="tool-result" id="toolResult" style="display: none;">
+  <div class="tool-result-card">
+    <div class="tool-result-icon-wrapper">
+      <span class="material-symbols-outlined tool-result-icon">check_circle</span>
+    </div>
+
+    <div class="tool-result-info">
+      <p class="tool-result-filename" id="resultFilename">arquivo.pdf</p>
+      <div class="tool-result-stats">
+        <span class="tool-result-stat">
+          Original: <strong id="resultOriginalSize">0 MB</strong>
+        </span>
+        <span class="tool-result-stat">
+          Novo: <strong id="resultNewSize">0 MB</strong>
+        </span>
+        <span class="tool-result-stat tool-result-reduction">
+          Reducao: <strong id="resultReduction">0%</strong>
+        </span>
+      </div>
+    </div>
+
+    <div class="tool-result-actions">
+      <a href="#" class="btn-download" id="resultDownload">
+        <span class="material-symbols-outlined">download</span>
+        Baixar arquivo
+      </a>
+      <button class="btn-secondary" id="resultProcessAnother">
+        <span class="material-symbols-outlined">refresh</span>
+        Processar outro arquivo
+      </button>
+    </div>
+
+    <p class="tool-result-warning">
+      <span class="material-symbols-outlined tool-result-warning-icon">schedule</span>
+      Arquivo sera apagado em 1 hora
+    </p>
+  </div>
+</section>

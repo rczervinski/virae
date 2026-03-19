@@ -1,0 +1,28 @@
+<section class="upload-section" id="uploadSection">
+  <div class="upload-glow"></div>
+  <div
+    class="upload-area"
+    id="uploadArea"
+    data-max-size="<%= (typeof user !== 'undefined' && user && user.isPro) ? '524288000' : '52428800' %>"
+  >
+    <div class="upload-icon-wrapper">
+      <span class="material-symbols-outlined upload-icon">cloud_upload</span>
+    </div>
+    <h3 class="upload-title">Arraste seus arquivos aqui</h3>
+    <p class="upload-subtitle">
+      ou clique para selecionar &bull; <span class="upload-limit-free">max 50MB (gratis)</span> / <span class="upload-limit-pro">500MB (PRO)</span>
+    </p>
+    <input
+      type="file"
+      id="fileInput"
+      class="upload-input"
+      <% if (typeof tool !== 'undefined' && tool.acceptedFormats && tool.acceptedFormats.length > 0) { %>
+        accept="<%= tool.acceptedFormats.join(',') %>"
+      <% } %>
+      <% if (typeof tool !== 'undefined' && tool.slug === 'merge-pdf') { %>
+        multiple
+      <% } %>
+      hidden
+    >
+  </div>
+</section>

@@ -1,0 +1,500 @@
+{
+  "categories": [
+    { "id": "pdf", "name": "PDF", "icon": "📄", "color": "#ff6b6b", "slug": "pdf" },
+    { "id": "image", "name": "Imagem", "icon": "🖼", "color": "#00cec9", "slug": "imagem" },
+    { "id": "gif", "name": "GIF", "icon": "🎞", "color": "#fdcb6e", "slug": "gif" },
+    { "id": "audio", "name": "Áudio", "icon": "🎵", "color": "#6c5ce7", "slug": "audio" },
+    { "id": "video", "name": "Vídeo", "icon": "🎬", "color": "#fd79a8", "slug": "video" },
+    { "id": "convert", "name": "Converter", "icon": "🔄", "color": "#74b9ff", "slug": "converter" },
+    { "id": "ai", "name": "IA", "icon": "🤖", "color": "#55efc4", "slug": "ia" }
+  ],
+  "tools": [
+    {
+      "slug": "comprimir-pdf",
+      "name": "Comprimir PDF",
+      "category": "pdf",
+      "title": "Comprimir PDF Online Grátis — Reduza o Tamanho do Seu PDF",
+      "metaDescription": "Comprima arquivos PDF online gratuitamente. Reduza o tamanho sem perder qualidade. Sem instalação.",
+      "h1": "Comprimir PDF online grátis",
+      "description": "Reduza o tamanho do seu arquivo PDF mantendo a qualidade. Upload, comprima e baixe em segundos.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "compress",
+      "options": [
+        { "name": "quality", "type": "select", "label": "Nível de compressão", "values": ["Baixo", "Médio", "Alto"], "default": "Médio" }
+      ],
+      "steps": ["Faça upload do PDF", "Escolha o nível de compressão", "Baixe o PDF comprimido"],
+      "faq": [
+        { "q": "Perde qualidade?", "a": "No nível médio, a diferença é imperceptível. O nível alto pode reduzir nitidez de imagens." },
+        { "q": "Qual o limite de tamanho?", "a": "50MB grátis, 500MB no PRO." },
+        { "q": "Meus arquivos são seguros?", "a": "Sim, todos os arquivos são apagados automaticamente em 1 hora." }
+      ],
+      "relatedTools": ["merge-pdf", "split-pdf", "pdf-para-word"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "merge-pdf",
+      "name": "Merge PDF",
+      "category": "pdf",
+      "title": "Juntar PDF Online Grátis — Combine Arquivos PDF | Virae",
+      "metaDescription": "Junte vários arquivos PDF em um só documento online e grátis. Arraste, reordene e combine PDFs em segundos. Sem instalação.",
+      "h1": "Juntar PDFs online grátis",
+      "description": "Combine vários arquivos PDF em um só documento.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "merge",
+      "options": [
+        { "name": "order", "type": "info", "label": "Arraste para reordenar os arquivos antes de juntar." }
+      ],
+      "steps": ["Faça upload de dois ou mais arquivos PDF", "Arraste para reordenar na sequência desejada", "Clique em Juntar e baixe o PDF combinado"],
+      "faq": [
+        { "q": "Quantos PDFs posso juntar de uma vez?", "a": "Não há limite de arquivos. Você pode combinar dezenas de PDFs em um único documento." },
+        { "q": "A ordem das páginas é mantida?", "a": "Sim, os arquivos são combinados na ordem em que aparecem na lista. Arraste para reordenar antes de juntar." },
+        { "q": "Posso juntar PDFs protegidos por senha?", "a": "É necessário desbloquear os PDFs antes. Use a ferramenta Desbloquear PDF e depois junte os arquivos." },
+        { "q": "Meus arquivos são seguros?", "a": "Sim, todos os arquivos são apagados automaticamente em 1 hora após o processamento." }
+      ],
+      "relatedTools": ["split-pdf", "comprimir-pdf", "rotacionar-pdf", "numerar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "split-pdf",
+      "name": "Split PDF",
+      "category": "pdf",
+      "title": "Dividir PDF Online Grátis — Separe Páginas do PDF | Virae",
+      "metaDescription": "Divida arquivos PDF por páginas ou intervalos online e grátis. Extraia páginas específicas em segundos. Sem instalação.",
+      "h1": "Dividir PDF online grátis",
+      "description": "Separe um PDF em múltiplos arquivos por páginas.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "split",
+      "options": [
+        { "name": "pages", "type": "text", "label": "Páginas", "placeholder": "Ex: 1-3, 5, 7-10 (vazio = todas)" }
+      ],
+      "steps": ["Faça upload do arquivo PDF", "Informe as páginas ou intervalos que deseja extrair", "Baixe os PDFs separados"],
+      "faq": [
+        { "q": "Como seleciono páginas específicas?", "a": "Use vírgulas para páginas individuais (1, 3, 5) e hifens para intervalos (1-5). Combine ambos: 1-3, 5, 7-10." },
+        { "q": "Posso dividir em arquivos individuais por página?", "a": "Sim, deixe o campo vazio para separar cada página em um arquivo individual." },
+        { "q": "O PDF original é alterado?", "a": "Não, o arquivo original permanece intacto. Você recebe novos arquivos com as páginas selecionadas." },
+        { "q": "Qual o limite de páginas?", "a": "Não há limite de páginas. PDFs de qualquer tamanho podem ser divididos." }
+      ],
+      "relatedTools": ["merge-pdf", "comprimir-pdf", "rotacionar-pdf", "numerar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "pdf-para-word",
+      "name": "PDF → Word",
+      "category": "pdf",
+      "title": "Converter PDF para Word Online Grátis — PDF para DOCX | Virae",
+      "metaDescription": "Converta PDF para Word (DOCX) online e grátis com formatação preservada. Edite seus documentos PDF no Word em segundos.",
+      "h1": "Converter PDF para Word online",
+      "description": "Converta PDF para DOCX editável com formatação preservada.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "toWord",
+      "steps": ["Faça upload do arquivo PDF", "Aguarde a conversão automática para DOCX", "Baixe o documento Word editável"],
+      "faq": [
+        { "q": "A formatação do PDF é mantida?", "a": "Sim, o conversor preserva fontes, tabelas, imagens e layout o máximo possível." },
+        { "q": "Funciona com PDFs escaneados?", "a": "Para PDFs escaneados (imagens), use primeiro a ferramenta OCR PDF para reconhecer o texto, depois converta para Word." },
+        { "q": "Qual o tamanho máximo do arquivo?", "a": "50MB no plano gratuito e 500MB no plano PRO." }
+      ],
+      "relatedTools": ["word-para-pdf", "pdf-para-excel", "pdf-para-ppt", "ocr-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "pdf-para-excel",
+      "name": "PDF → Excel",
+      "category": "pdf",
+      "title": "Converter PDF para Excel Online Grátis — PDF para XLSX | Virae",
+      "metaDescription": "Extraia tabelas de PDFs e converta para planilhas Excel (XLSX) online e grátis. Dados organizados e prontos para editar.",
+      "h1": "Converter PDF para Excel online",
+      "description": "Extraia tabelas do PDF para planilha XLSX.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "toExcel",
+      "steps": ["Faça upload do PDF com tabelas", "Aguarde a extração automática dos dados", "Baixe a planilha Excel pronta para editar"],
+      "faq": [
+        { "q": "As tabelas são detectadas automaticamente?", "a": "Sim, o conversor identifica e extrai tabelas automaticamente, mantendo linhas e colunas organizadas." },
+        { "q": "Funciona com PDFs sem tabelas?", "a": "O melhor resultado é com PDFs que contêm dados tabulares. Textos corridos podem não converter bem para planilha." },
+        { "q": "Posso converter várias páginas de tabelas?", "a": "Sim, todas as tabelas do PDF são extraídas e organizadas em abas da planilha." }
+      ],
+      "relatedTools": ["pdf-para-word", "pdf-para-ppt", "comprimir-pdf", "ocr-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "pdf-para-ppt",
+      "name": "PDF → PPT",
+      "category": "pdf",
+      "title": "Converter PDF para PowerPoint Online Grátis — PDF para PPTX | Virae",
+      "metaDescription": "Transforme PDFs em apresentações PowerPoint editáveis online e grátis. Slides prontos para personalizar em segundos.",
+      "h1": "Converter PDF para PowerPoint online",
+      "description": "Transforme PDF em apresentação editável.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "toPpt",
+      "steps": ["Faça upload do arquivo PDF", "Aguarde a conversão para formato PowerPoint", "Baixe a apresentação PPTX editável"],
+      "faq": [
+        { "q": "Cada página do PDF vira um slide?", "a": "Sim, cada página do PDF é convertida em um slide individual na apresentação." },
+        { "q": "Posso editar os slides depois?", "a": "Sim, o arquivo PPTX gerado é totalmente editável no PowerPoint ou Google Slides." },
+        { "q": "Imagens e gráficos são preservados?", "a": "Sim, imagens, gráficos e elementos visuais são mantidos na conversão." }
+      ],
+      "relatedTools": ["pdf-para-word", "pdf-para-excel", "comprimir-pdf", "pdf-para-imagem"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "word-para-pdf",
+      "name": "Word → PDF",
+      "category": "pdf",
+      "title": "Converter Word para PDF Online Grátis — DOCX para PDF | Virae",
+      "metaDescription": "Converta documentos Word (DOCX/DOC) para PDF online e grátis. Formatação perfeita, pronto para enviar ou imprimir.",
+      "h1": "Converter Word para PDF online",
+      "description": "Converta documentos DOCX para PDF.",
+      "acceptedFormats": [".docx", ".doc"],
+      "processorService": "pdf",
+      "processorMethod": "fromWord",
+      "steps": ["Faça upload do documento Word (.docx ou .doc)", "Aguarde a conversão automática para PDF", "Baixe o PDF formatado"],
+      "faq": [
+        { "q": "A formatação do Word é mantida?", "a": "Sim, fontes, imagens, tabelas e layout são preservados na conversão para PDF." },
+        { "q": "Aceita arquivos .doc antigos?", "a": "Sim, tanto .docx quanto .doc são suportados." },
+        { "q": "O PDF gerado pode ser editado?", "a": "O PDF é um formato fixo. Para editar, use a ferramenta Editar PDF ou converta de volta para Word." }
+      ],
+      "relatedTools": ["pdf-para-word", "comprimir-pdf", "proteger-pdf", "assinar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "pdf-para-imagem",
+      "name": "PDF → Imagem",
+      "category": "pdf",
+      "title": "Converter PDF para Imagem Online Grátis — PDF para JPG/PNG | Virae",
+      "metaDescription": "Converta cada página do PDF em imagem JPG ou PNG online e grátis. Escolha o formato e a resolução ideal para seu uso.",
+      "h1": "Converter PDF para JPG/PNG online",
+      "description": "Cada página do PDF vira uma imagem.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "toImage",
+      "options": [
+        { "name": "format", "type": "select", "label": "Formato", "values": ["PNG", "JPG"], "default": "PNG" },
+        { "name": "dpi", "type": "select", "label": "Resolução (DPI)", "values": ["72", "150", "300"], "default": "150" }
+      ],
+      "steps": ["Faça upload do arquivo PDF", "Escolha o formato (PNG ou JPG) e a resolução", "Baixe as imagens de cada página"],
+      "faq": [
+        { "q": "Qual formato escolher: PNG ou JPG?", "a": "PNG oferece melhor qualidade e transparência, ideal para textos e gráficos. JPG gera arquivos menores, ideal para fotos." },
+        { "q": "O que significa DPI?", "a": "DPI (pontos por polegada) define a resolução. 72 para web, 150 para uso geral e 300 para impressão de alta qualidade." },
+        { "q": "Todas as páginas são convertidas?", "a": "Sim, cada página do PDF gera uma imagem individual que pode ser baixada separadamente." },
+        { "q": "Posso converter de volta para PDF?", "a": "Imagens podem ser combinadas em PDF novamente, mas o texto não será editável." }
+      ],
+      "relatedTools": ["comprimir-pdf", "pdf-para-word", "rotacionar-pdf", "ocr-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "assinar-pdf",
+      "name": "Assinar PDF",
+      "category": "pdf",
+      "title": "Assinar PDF Online Grátis — Assinatura Digital em PDF | Virae",
+      "metaDescription": "Adicione sua assinatura digital a documentos PDF online e grátis. Desenhe, digite ou carregue sua assinatura. Rápido e seguro.",
+      "h1": "Assinar PDF online grátis",
+      "description": "Adicione sua assinatura digital a documentos PDF.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "sign",
+      "options": [
+        { "name": "signatureData", "type": "hidden", "label": "" },
+        { "name": "page", "type": "select", "label": "Página", "values": ["Primeira", "Última", "Todas"], "default": "Última" }
+      ],
+      "steps": ["Faça upload do documento PDF", "Desenhe ou carregue sua assinatura e escolha a página", "Baixe o PDF assinado"],
+      "faq": [
+        { "q": "A assinatura tem validade jurídica?", "a": "A assinatura adicionada é uma imagem sobre o PDF. Para validade jurídica plena, considere usar um certificado digital ICP-Brasil." },
+        { "q": "Posso assinar em todas as páginas?", "a": "Sim, selecione 'Todas' na opção de página para aplicar a assinatura em cada página do documento." },
+        { "q": "Minha assinatura fica salva?", "a": "Não, sua assinatura não é armazenada em nossos servidores. O arquivo é apagado automaticamente em 1 hora." },
+        { "q": "Posso posicionar a assinatura onde quiser?", "a": "Sim, você pode arrastar a assinatura para qualquer posição na página antes de aplicar." }
+      ],
+      "relatedTools": ["proteger-pdf", "comprimir-pdf", "merge-pdf", "editar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "marca-dagua-pdf",
+      "name": "Marca d'água PDF",
+      "category": "pdf",
+      "title": "Adicionar Marca d'Água ao PDF Online Grátis — Watermark PDF | Virae",
+      "metaDescription": "Insira marca d'água com texto personalizado em seus PDFs online e grátis. Proteja documentos com watermark em segundos.",
+      "h1": "Adicionar marca d'água ao PDF",
+      "description": "Insira texto ou imagem como watermark.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "watermark",
+      "options": [
+        { "name": "text", "type": "text", "label": "Texto da marca d'água", "placeholder": "Ex: CONFIDENCIAL" },
+        { "name": "fontSize", "type": "range", "label": "Tamanho da fonte", "min": 12, "max": 72, "default": 36 },
+        { "name": "opacity", "type": "range", "label": "Opacidade (%)", "min": 10, "max": 100, "default": 30 },
+        { "name": "position", "type": "select", "label": "Posição", "values": ["Centro", "Topo", "Rodapé"], "default": "Centro" },
+        { "name": "color", "type": "color", "label": "Cor", "default": "#000000" }
+      ],
+      "steps": ["Faça upload do arquivo PDF", "Configure o texto, tamanho, opacidade e posição da marca d'água", "Baixe o PDF com a marca d'água aplicada"],
+      "faq": [
+        { "q": "A marca d'água aparece em todas as páginas?", "a": "Sim, a marca d'água é aplicada em todas as páginas do documento automaticamente." },
+        { "q": "Posso remover a marca d'água depois?", "a": "A marca d'água é permanente no PDF gerado. Mantenha o arquivo original sem watermark como backup." },
+        { "q": "Qual opacidade usar para não atrapalhar a leitura?", "a": "Recomendamos entre 20% e 40% para que o texto do documento permaneça legível." },
+        { "q": "Posso usar cores personalizadas?", "a": "Sim, insira qualquer cor em formato hexadecimal (ex: #FF0000 para vermelho)." }
+      ],
+      "relatedTools": ["proteger-pdf", "assinar-pdf", "comprimir-pdf", "editar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "proteger-pdf",
+      "name": "Proteger PDF",
+      "category": "pdf",
+      "title": "Proteger PDF com Senha Online Grátis — Criptografar PDF | Virae",
+      "metaDescription": "Adicione senha e criptografia ao seu PDF online e grátis. Proteja documentos confidenciais contra acesso não autorizado.",
+      "h1": "Proteger PDF com senha",
+      "description": "Adicione uma senha para proteger seu PDF.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "protect",
+      "options": [
+        { "name": "password", "type": "password", "label": "Senha", "placeholder": "Digite a senha" },
+        { "name": "confirmPassword", "type": "password", "label": "Confirmar senha", "placeholder": "Repita a senha" }
+      ],
+      "steps": ["Faça upload do arquivo PDF", "Defina e confirme a senha de proteção", "Baixe o PDF protegido por senha"],
+      "faq": [
+        { "q": "Qual tipo de criptografia é usado?", "a": "Utilizamos criptografia AES de 128 bits, padrão seguro para documentos PDF." },
+        { "q": "Posso remover a senha depois?", "a": "Sim, use a ferramenta Desbloquear PDF informando a senha atual para remover a proteção." },
+        { "q": "A senha é armazenada?", "a": "Não, a senha nunca é salva em nossos servidores. Guarde-a em local seguro, pois não poderemos recuperá-la." },
+        { "q": "Posso proteger PDFs grandes?", "a": "Sim, até 50MB no plano gratuito e 500MB no plano PRO." }
+      ],
+      "relatedTools": ["desbloquear-pdf", "assinar-pdf", "marca-dagua-pdf", "comprimir-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "desbloquear-pdf",
+      "name": "Desbloquear PDF",
+      "category": "pdf",
+      "title": "Desbloquear PDF Online Grátis — Remover Senha de PDF | Virae",
+      "metaDescription": "Remova a senha de proteção do seu PDF online e grátis. Desbloqueie documentos PDF protegidos de forma rápida e segura.",
+      "h1": "Remover senha de PDF",
+      "description": "Desbloqueie PDFs protegidos por senha.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "unlock",
+      "options": [
+        { "name": "password", "type": "password", "label": "Senha do PDF", "placeholder": "Digite a senha atual" }
+      ],
+      "steps": ["Faça upload do PDF protegido", "Digite a senha atual do documento", "Baixe o PDF desbloqueado"],
+      "faq": [
+        { "q": "Posso desbloquear sem saber a senha?", "a": "Não, é necessário informar a senha correta do documento para remover a proteção." },
+        { "q": "O conteúdo do PDF é alterado?", "a": "Não, apenas a proteção por senha é removida. Todo o conteúdo permanece intacto." },
+        { "q": "É legal desbloquear um PDF?", "a": "Sim, desde que você tenha autorização para acessar o documento e conheça a senha." }
+      ],
+      "relatedTools": ["proteger-pdf", "comprimir-pdf", "merge-pdf", "editar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "rotacionar-pdf",
+      "name": "Rotacionar PDF",
+      "category": "pdf",
+      "title": "Rotacionar PDF Online Grátis — Girar Páginas do PDF | Virae",
+      "metaDescription": "Gire páginas do PDF em 90, 180 ou 270 graus online e grátis. Corrija a orientação de documentos escaneados em segundos.",
+      "h1": "Girar páginas do PDF online",
+      "description": "Rotacione páginas individuais ou o documento inteiro.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "rotate",
+      "options": [
+        { "name": "degrees", "type": "select", "label": "Rotação", "values": ["90°", "180°", "270°"], "default": "90°" }
+      ],
+      "steps": ["Faça upload do arquivo PDF", "Escolha o ângulo de rotação desejado", "Baixe o PDF com as páginas rotacionadas"],
+      "faq": [
+        { "q": "Posso girar páginas individuais?", "a": "A rotação é aplicada ao documento inteiro. Para girar páginas específicas, divida o PDF primeiro e rotacione separadamente." },
+        { "q": "Qual a diferença entre 90° e 270°?", "a": "90° gira no sentido horário, 270° gira no sentido anti-horário. 180° inverte a página de cabeça para baixo." },
+        { "q": "O texto continua selecionável após girar?", "a": "Sim, a rotação altera apenas a orientação visual. O texto permanece selecionável e pesquisável." }
+      ],
+      "relatedTools": ["split-pdf", "merge-pdf", "comprimir-pdf", "numerar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "numerar-pdf",
+      "name": "Numerar PDF",
+      "category": "pdf",
+      "title": "Numerar Páginas do PDF Online Grátis — Adicionar Numeração | Virae",
+      "metaDescription": "Adicione números de página ao seu PDF online e grátis. Escolha posição e tamanho da numeração. Ideal para trabalhos e relatórios.",
+      "h1": "Adicionar números de página ao PDF",
+      "description": "Insira numeração automática em cada página.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "pageNumbers",
+      "options": [
+        { "name": "position", "type": "select", "label": "Posição", "values": ["Rodapé centro", "Rodapé direita", "Rodapé esquerda", "Cabeçalho centro", "Cabeçalho direita", "Cabeçalho esquerda"], "default": "Rodapé centro" },
+        { "name": "fontSize", "type": "range", "label": "Tamanho da fonte", "min": 8, "max": 24, "default": 12 }
+      ],
+      "steps": ["Faça upload do arquivo PDF", "Escolha a posição e o tamanho da numeração", "Baixe o PDF com páginas numeradas"],
+      "faq": [
+        { "q": "Posso começar a numeração em uma página específica?", "a": "A numeração começa na primeira página. Para pular páginas, divida o PDF e numere apenas a parte desejada." },
+        { "q": "A numeração sobrepõe o conteúdo existente?", "a": "A numeração é posicionada nas margens do documento (cabeçalho ou rodapé) para não interferir no conteúdo." },
+        { "q": "Funciona com PDFs de qualquer tamanho?", "a": "Sim, PDFs de qualquer número de páginas podem receber numeração automática." },
+        { "q": "Posso personalizar o formato da numeração?", "a": "Você pode escolher a posição (6 opções) e o tamanho da fonte entre 8pt e 24pt." }
+      ],
+      "relatedTools": ["merge-pdf", "comprimir-pdf", "marca-dagua-pdf", "rotacionar-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "editar-pdf",
+      "name": "Editar PDF",
+      "category": "pdf",
+      "title": "Editar PDF Online Grátis — Adicionar Texto ao PDF | Virae",
+      "metaDescription": "Adicione texto ao seu PDF online e grátis. Escolha fonte, tamanho, cor e posição. Sem instalação.",
+      "h1": "Editar PDF online grátis",
+      "description": "Adicione texto, anotações e marcações ao seu PDF.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "pdf",
+      "processorMethod": "edit",
+      "options": [
+        { "name": "text", "type": "text", "label": "Texto a adicionar", "placeholder": "Digite seu texto aqui..." },
+        { "name": "page", "type": "number", "label": "Página", "default": 1, "min": 1, "max": 999 },
+        { "name": "fontSize", "type": "range", "label": "Tamanho da fonte", "min": 8, "max": 48, "default": 14 },
+        { "name": "fontWeight", "type": "select", "label": "Peso da fonte", "values": ["normal", "bold"], "default": "normal" },
+        { "name": "color", "type": "color", "label": "Cor do texto", "default": "#000000" }
+      ],
+      "steps": ["Faça upload do arquivo PDF", "Digite o texto e configure fonte, cor e posição", "Baixe o PDF editado"],
+      "faq": [
+        { "q": "Posso editar qualquer PDF?", "a": "Sim, desde que o PDF não esteja protegido por senha. Para PDFs protegidos, desbloqueie primeiro." },
+        { "q": "Posso adicionar texto em qualquer página?", "a": "Sim, basta informar o número da página onde deseja adicionar o texto." },
+        { "q": "A formatação original é preservada?", "a": "Sim, o texto existente e layout do documento são mantidos. O novo texto é sobreposto." },
+        { "q": "Quais fontes estão disponíveis?", "a": "Helvetica normal e negrito. Mais opções de fonte serão adicionadas em breve." }
+      ],
+      "relatedTools": ["comprimir-pdf", "merge-pdf", "assinar-pdf", "ocr-pdf"],
+      "isPro": false,
+      "isAI": false
+    },
+    {
+      "slug": "ocr-pdf",
+      "name": "OCR PDF",
+      "category": "pdf",
+      "title": "OCR PDF Online — Reconhecer Texto em PDF com IA | Virae",
+      "metaDescription": "Torne PDFs escaneados pesquisáveis com OCR inteligente. Reconheça texto em português, inglês e mais idiomas. Tecnologia de IA.",
+      "h1": "OCR — Reconhecer texto em PDF",
+      "description": "Torne PDFs escaneados pesquisáveis com reconhecimento de texto.",
+      "acceptedFormats": [".pdf"],
+      "processorService": "ai",
+      "processorMethod": "ocr",
+      "options": [
+        { "name": "language", "type": "select", "label": "Idioma do documento", "values": ["Português", "Inglês", "Espanhol", "Francês", "Alemão"], "default": "Português" }
+      ],
+      "steps": ["Faça upload do PDF escaneado", "Selecione o idioma do documento", "Baixe o PDF pesquisável com texto reconhecido"],
+      "faq": [
+        { "q": "O que é OCR?", "a": "OCR (Reconhecimento Óptico de Caracteres) é uma tecnologia que converte imagens de texto em texto digital editável e pesquisável." },
+        { "q": "Funciona com documentos manuscritos?", "a": "O OCR funciona melhor com texto impresso. Manuscritos podem ter menor precisão dependendo da legibilidade." },
+        { "q": "O layout do PDF é preservado?", "a": "Sim, o texto reconhecido é posicionado sobre a imagem original, mantendo o layout idêntico ao documento escaneado." },
+        { "q": "Posso converter o resultado para Word?", "a": "Sim, após o OCR use a ferramenta PDF para Word para obter um documento editável." }
+      ],
+      "relatedTools": ["pdf-para-word", "comprimir-pdf", "editar-pdf", "pdf-para-excel"],
+      "isPro": false,
+      "isAI": true
+    },
+
+    { "slug": "redimensionar-imagem", "name": "Resize Imagem", "category": "image", "h1": "Redimensionar imagem online grátis", "description": "Altere as dimensões de qualquer imagem.", "acceptedFormats": [".jpg",".jpeg",".png",".webp",".gif",".bmp",".tiff"], "processorService": "image", "processorMethod": "resize", "isPro": false, "isAI": false },
+    { "slug": "cortar-imagem", "name": "Crop Imagem", "category": "image", "h1": "Cortar imagem online grátis", "description": "Recorte a área desejada da imagem.", "acceptedFormats": [".jpg",".jpeg",".png",".webp",".gif",".bmp"], "processorService": "image", "processorMethod": "crop", "isPro": false, "isAI": false },
+    { "slug": "comprimir-imagem", "name": "Comprimir Imagem", "category": "image", "h1": "Comprimir imagem online grátis", "description": "Reduza o tamanho de PNG, JPG e WebP sem perder qualidade.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "image", "processorMethod": "compress", "isPro": false, "isAI": false },
+    {
+      "slug": "converter-imagem",
+      "name": "Converter Imagem",
+      "category": "image",
+      "title": "Converter Formato de Imagem Online Grátis — JPG, PNG, WebP, AVIF",
+      "metaDescription": "Converta imagens entre JPG, PNG, WebP, AVIF e TIFF online e grátis. Sem instalação, sem cadastro.",
+      "h1": "Converter formato de imagem online",
+      "description": "Converta entre JPG, PNG, WebP, AVIF, SVG, BMP e TIFF.",
+      "acceptedFormats": [".jpg",".jpeg",".png",".webp",".avif",".bmp",".tiff",".svg"],
+      "processorService": "image",
+      "processorMethod": "convert",
+      "options": [
+        { "name": "format", "type": "select", "label": "Converter para", "values": ["JPG", "PNG", "WebP", "AVIF", "TIFF"], "default": "PNG" }
+      ],
+      "steps": ["Faça upload da imagem", "Escolha o formato de saída", "Baixe a imagem convertida"],
+      "faq": [
+        { "q": "Quais formatos são suportados?", "a": "JPG, PNG, WebP, AVIF, BMP, TIFF e SVG como entrada. JPG, PNG, WebP, AVIF e TIFF como saída." },
+        { "q": "A conversão perde qualidade?", "a": "A conversão para formatos sem perda (PNG, TIFF) preserva 100% da qualidade. Para JPG e WebP, usamos qualidade 90% que é visualmente idêntica." },
+        { "q": "Qual formato é melhor para web?", "a": "WebP é o formato mais eficiente para web, com tamanho menor e boa qualidade. AVIF é ainda mais eficiente, mas tem compatibilidade menor." }
+      ],
+      "relatedTools": ["comprimir-imagem", "redimensionar-imagem", "heic-para-jpg"],
+      "isPro": false,
+      "isAI": false
+    },
+    { "slug": "filtros-imagem", "name": "Filtros Imagem", "category": "image", "h1": "Aplicar filtros em imagens online", "description": "Ajuste brilho, contraste, saturação. Aplique sépia, B&W.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "image", "processorMethod": "filters", "isPro": false, "isAI": false },
+    { "slug": "girar-imagem", "name": "Girar Imagem", "category": "image", "h1": "Girar e espelhar imagem online", "description": "Rotacione ou espelhe imagens facilmente.", "acceptedFormats": [".jpg",".jpeg",".png",".webp",".gif",".bmp"], "processorService": "image", "processorMethod": "rotate", "isPro": false, "isAI": false },
+    { "slug": "remover-fundo", "name": "Remover Fundo", "category": "image", "h1": "Remover fundo de imagem com IA", "description": "Remova o background de qualquer foto automaticamente.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "ai", "processorMethod": "removeBg", "isPro": false, "isAI": true },
+    { "slug": "aspect-ratio-imagem", "name": "Aspect Ratio", "category": "image", "h1": "Ajustar proporção de imagem online", "description": "Ajuste para 16:9, 1:1, 4:3 e outros formatos.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "image", "processorMethod": "aspectRatio", "isPro": false, "isAI": false },
+    { "slug": "bordas-imagem", "name": "Bordas", "category": "image", "h1": "Adicionar bordas e molduras", "description": "Adicione bordas coloridas ou molduras decorativas.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "image", "processorMethod": "borders", "isPro": false, "isAI": false },
+    { "slug": "texto-imagem", "name": "Texto na Imagem", "category": "image", "h1": "Adicionar texto em imagens online", "description": "Insira texto, legendas ou memes em suas fotos.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "image", "processorMethod": "addText", "isPro": false, "isAI": false },
+    { "slug": "upscale-imagem", "name": "Upscale IA", "category": "image", "h1": "Aumentar resolução de imagem com IA", "description": "Aumente a resolução sem perder qualidade usando inteligência artificial.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "ai", "processorMethod": "upscale", "isPro": true, "isAI": true },
+    { "slug": "heic-para-jpg", "name": "HEIC → JPG", "category": "image", "h1": "Converter HEIC para JPG online", "description": "Converta fotos do iPhone (HEIC) para JPG universal.", "acceptedFormats": [".heic",".heif"], "processorService": "image", "processorMethod": "heicToJpg", "isPro": false, "isAI": false },
+
+    { "slug": "gif-maker", "name": "GIF Maker", "category": "gif", "h1": "Criar GIF a partir de imagens", "description": "Monte um GIF animado com suas próprias imagens.", "acceptedFormats": [".jpg",".jpeg",".png",".webp",".gif"], "processorService": "gif", "processorMethod": "make", "isPro": false, "isAI": false },
+    { "slug": "video-para-gif", "name": "Vídeo → GIF", "category": "gif", "h1": "Converter vídeo para GIF online", "description": "Transforme qualquer vídeo em GIF animado.", "acceptedFormats": [".mp4",".mov",".avi",".webm"], "processorService": "gif", "processorMethod": "fromVideo", "isPro": false, "isAI": false },
+    { "slug": "redimensionar-gif", "name": "Resize GIF", "category": "gif", "h1": "Redimensionar GIF online", "description": "Altere o tamanho do GIF sem perder frames.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "resize", "isPro": false, "isAI": false },
+    { "slug": "cortar-gif", "name": "Crop GIF", "category": "gif", "h1": "Cortar GIF online", "description": "Recorte a área desejada do GIF animado.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "crop", "isPro": false, "isAI": false },
+    { "slug": "comprimir-gif", "name": "Comprimir GIF", "category": "gif", "h1": "Comprimir GIF online", "description": "Reduza o tamanho do GIF otimizando cores e frames.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "compress", "isPro": false, "isAI": false },
+    { "slug": "velocidade-gif", "name": "Velocidade GIF", "category": "gif", "h1": "Alterar velocidade do GIF", "description": "Acelere ou desacelere a animação.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "speed", "isPro": false, "isAI": false },
+    { "slug": "reverter-gif", "name": "Reverse GIF", "category": "gif", "h1": "Inverter GIF online", "description": "Inverta a direção da animação.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "reverse", "isPro": false, "isAI": false },
+    { "slug": "split-gif", "name": "Split GIF", "category": "gif", "h1": "Extrair frames do GIF", "description": "Separe cada frame do GIF como imagem individual.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "split", "isPro": false, "isAI": false },
+    { "slug": "texto-gif", "name": "Texto no GIF", "category": "gif", "h1": "Adicionar texto ao GIF online", "description": "Insira legendas e texto animado no GIF.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "addText", "isPro": false, "isAI": false },
+    { "slug": "gif-para-webp", "name": "GIF → WebP", "category": "gif", "h1": "Converter GIF para WebP online", "description": "Formato moderno com menor peso que GIF.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "toWebp", "isPro": false, "isAI": false },
+    { "slug": "efeitos-gif", "name": "Efeitos GIF", "category": "gif", "h1": "Aplicar efeitos no GIF online", "description": "Sépia, grayscale, blur, fade e mais.", "acceptedFormats": [".gif"], "processorService": "gif", "processorMethod": "effects", "isPro": false, "isAI": false },
+
+    { "slug": "converter-audio", "name": "Converter Áudio", "category": "audio", "h1": "Converter áudio online grátis", "description": "Converta entre MP3, WAV, FLAC, OGG, AAC e M4A.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".aac",".m4a",".wma"], "processorService": "audio", "processorMethod": "convert", "isPro": false, "isAI": false },
+    { "slug": "cortar-audio", "name": "Cortar Áudio", "category": "audio", "h1": "Cortar áudio online grátis", "description": "Recorte trechos com precisão de milissegundos.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".aac",".m4a"], "processorService": "audio", "processorMethod": "trim", "isPro": false, "isAI": false },
+    { "slug": "juntar-audios", "name": "Juntar Áudios", "category": "audio", "h1": "Juntar áudios online grátis", "description": "Combine múltiplos arquivos de áudio em um só.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".aac",".m4a"], "processorService": "audio", "processorMethod": "merge", "isPro": false, "isAI": false },
+    { "slug": "comprimir-audio", "name": "Comprimir Áudio", "category": "audio", "h1": "Comprimir áudio online grátis", "description": "Reduza o bitrate e tamanho do arquivo.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".aac",".m4a"], "processorService": "audio", "processorMethod": "compress", "isPro": false, "isAI": false },
+    { "slug": "volume-audio", "name": "Volume Áudio", "category": "audio", "h1": "Aumentar ou diminuir volume online", "description": "Ajuste o volume do seu arquivo de áudio.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".aac",".m4a"], "processorService": "audio", "processorMethod": "volume", "isPro": false, "isAI": false },
+    { "slug": "velocidade-audio", "name": "Velocidade Áudio", "category": "audio", "h1": "Alterar velocidade do áudio online", "description": "Acelere ou desacelere sem distorção.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".aac",".m4a"], "processorService": "audio", "processorMethod": "speed", "isPro": false, "isAI": false },
+    { "slug": "remover-silencio", "name": "Remover Silêncio", "category": "audio", "h1": "Remover silêncio do áudio online", "description": "Corte automaticamente trechos silenciosos.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".aac",".m4a"], "processorService": "audio", "processorMethod": "removeSilence", "isPro": false, "isAI": false },
+    { "slug": "gravar-audio", "name": "Gravar Áudio", "category": "audio", "h1": "Gravar áudio online grátis", "description": "Grave direto do microfone do seu dispositivo.", "acceptedFormats": [], "processorService": "audio", "processorMethod": "record", "isPro": false, "isAI": false },
+    { "slug": "transcrever-audio", "name": "Transcrever Áudio", "category": "audio", "h1": "Transcrever áudio para texto com IA", "description": "Converta áudio em texto automaticamente.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".m4a"], "processorService": "ai", "processorMethod": "transcribe", "isPro": false, "isAI": true },
+    { "slug": "separar-vocais", "name": "Separar Vocais", "category": "audio", "h1": "Separar voz e instrumental com IA", "description": "Isole vocais e instrumentos de qualquer música.", "acceptedFormats": [".mp3",".wav",".flac"], "processorService": "ai", "processorMethod": "stemSplit", "isPro": true, "isAI": true },
+    { "slug": "ringtone-maker", "name": "Ringtone Maker", "category": "audio", "h1": "Criar toque de celular online", "description": "Corte e converta áudio para formato de ringtone.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".m4a"], "processorService": "audio", "processorMethod": "ringtone", "isPro": false, "isAI": false },
+    { "slug": "fade-audio", "name": "Fade In/Out", "category": "audio", "h1": "Aplicar fade in/out no áudio", "description": "Adicione efeito de entrada e saída suave.", "acceptedFormats": [".mp3",".wav",".flac",".ogg",".m4a"], "processorService": "audio", "processorMethod": "fade", "isPro": false, "isAI": false },
+
+    { "slug": "converter-video", "name": "Converter Vídeo", "category": "video", "h1": "Converter vídeo online grátis", "description": "Converta entre MP4, MOV, AVI, WebM e MKV.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv",".flv",".wmv"], "processorService": "video", "processorMethod": "convert", "isPro": false, "isAI": false },
+    { "slug": "comprimir-video", "name": "Comprimir Vídeo", "category": "video", "h1": "Comprimir vídeo online grátis", "description": "Reduza o tamanho do vídeo mantendo qualidade.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "compress", "isPro": false, "isAI": false },
+    { "slug": "cortar-video", "name": "Cortar Vídeo", "category": "video", "h1": "Cortar vídeo online grátis", "description": "Recorte início, fim ou trecho específico.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "trim", "isPro": false, "isAI": false },
+    { "slug": "juntar-videos", "name": "Juntar Vídeos", "category": "video", "h1": "Juntar vídeos online grátis", "description": "Combine múltiplos vídeos em um só.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "merge", "isPro": false, "isAI": false },
+    { "slug": "extrair-audio", "name": "Extrair Áudio", "category": "video", "h1": "Extrair áudio de vídeo online", "description": "Tire o áudio de qualquer vídeo em MP3 ou WAV.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "extractAudio", "isPro": false, "isAI": false },
+    { "slug": "remover-audio-video", "name": "Remover Áudio", "category": "video", "h1": "Remover áudio do vídeo online", "description": "Deixe o vídeo mudo removendo a faixa de áudio.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "removeAudio", "isPro": false, "isAI": false },
+    { "slug": "redimensionar-video", "name": "Resize Vídeo", "category": "video", "h1": "Redimensionar vídeo online", "description": "Altere a resolução: 4K, 1080p, 720p, 480p.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "resize", "isPro": false, "isAI": false },
+    { "slug": "aspect-ratio-video", "name": "Aspect Ratio Vídeo", "category": "video", "h1": "Ajustar proporção do vídeo online", "description": "Converta para 9:16 (Reels), 16:9, 1:1 e mais.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "aspectRatio", "isPro": false, "isAI": false },
+    { "slug": "screenshot-video", "name": "Screenshot Vídeo", "category": "video", "h1": "Capturar frame de vídeo online", "description": "Extraia uma imagem de qualquer momento do vídeo.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "screenshot", "isPro": false, "isAI": false },
+    { "slug": "filtros-video", "name": "Filtros Vídeo", "category": "video", "h1": "Aplicar filtros em vídeo online", "description": "Ajuste brilho, contraste e saturação.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "filters", "isPro": false, "isAI": false },
+    { "slug": "velocidade-video", "name": "Velocidade Vídeo", "category": "video", "h1": "Alterar velocidade do vídeo online", "description": "Slow-motion ou time-lapse facilmente.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "video", "processorMethod": "speed", "isPro": false, "isAI": false },
+    { "slug": "legendar-video", "name": "Legendar Vídeo", "category": "video", "h1": "Gerar legendas automáticas com IA", "description": "Adicione legendas transcritas automaticamente.", "acceptedFormats": [".mp4",".mov",".avi",".webm",".mkv"], "processorService": "ai", "processorMethod": "subtitle", "isPro": false, "isAI": true },
+
+    { "slug": "docx-para-pdf", "name": "DOCX → PDF", "category": "convert", "h1": "Converter Word para PDF online", "description": "Converta documentos DOCX para PDF.", "acceptedFormats": [".docx",".doc"], "processorService": "convert", "processorMethod": "docxToPdf", "isPro": false, "isAI": false },
+    { "slug": "xlsx-para-pdf", "name": "XLSX → PDF", "category": "convert", "h1": "Converter Excel para PDF online", "description": "Converta planilhas XLSX para PDF.", "acceptedFormats": [".xlsx",".xls"], "processorService": "convert", "processorMethod": "xlsxToPdf", "isPro": false, "isAI": false },
+    { "slug": "csv-para-xlsx", "name": "CSV → XLSX", "category": "convert", "h1": "Converter CSV para Excel online", "description": "Transforme CSV em planilha Excel formatada.", "acceptedFormats": [".csv"], "processorService": "convert", "processorMethod": "csvToXlsx", "isPro": false, "isAI": false },
+    { "slug": "epub-para-pdf", "name": "EPUB → PDF", "category": "convert", "h1": "Converter EPUB para PDF online", "description": "Converta e-books EPUB para PDF.", "acceptedFormats": [".epub"], "processorService": "convert", "processorMethod": "epubToPdf", "isPro": false, "isAI": false },
+    { "slug": "html-para-pdf", "name": "HTML → PDF", "category": "convert", "h1": "Converter HTML para PDF online", "description": "Transforme páginas web em documentos PDF.", "acceptedFormats": [".html",".htm"], "processorService": "convert", "processorMethod": "htmlToPdf", "isPro": false, "isAI": false },
+    { "slug": "markdown-para-pdf", "name": "Markdown → PDF", "category": "convert", "h1": "Converter Markdown para PDF online", "description": "Converta .md para PDF formatado.", "acceptedFormats": [".md"], "processorService": "convert", "processorMethod": "mdToPdf", "isPro": false, "isAI": false },
+    { "slug": "zip-rar", "name": "ZIP / RAR", "category": "convert", "h1": "Compactar e extrair arquivos online", "description": "Crie ou extraia arquivos ZIP e RAR.", "acceptedFormats": [".zip",".rar",".7z",".tar",".gz"], "processorService": "convert", "processorMethod": "archive", "isPro": false, "isAI": false },
+    { "slug": "json-csv", "name": "JSON ↔ CSV", "category": "convert", "h1": "Converter JSON para CSV e vice-versa", "description": "Transforme dados entre formatos JSON e CSV.", "acceptedFormats": [".json",".csv"], "processorService": "convert", "processorMethod": "jsonCsv", "isPro": false, "isAI": false },
+    { "slug": "ppt-para-pdf", "name": "PPT → PDF", "category": "convert", "h1": "Converter PowerPoint para PDF online", "description": "Converta apresentações PPTX para PDF.", "acceptedFormats": [".pptx",".ppt"], "processorService": "convert", "processorMethod": "pptToPdf", "isPro": false, "isAI": false },
+    { "slug": "txt-para-pdf", "name": "TXT → PDF", "category": "convert", "h1": "Converter texto para PDF online", "description": "Transforme arquivos de texto simples em PDF.", "acceptedFormats": [".txt"], "processorService": "convert", "processorMethod": "txtToPdf", "isPro": false, "isAI": false },
+
+    { "slug": "resumir-texto", "name": "Resumir Texto", "category": "ai", "h1": "Resumir texto com inteligência artificial", "description": "Resuma documentos e textos longos automaticamente.", "acceptedFormats": [".pdf",".docx",".txt",".md"], "processorService": "ai", "processorMethod": "summarize", "isPro": false, "isAI": true },
+    { "slug": "traduzir-documento", "name": "Traduzir", "category": "ai", "h1": "Traduzir documentos com IA", "description": "Traduza documentos completos mantendo a formatação.", "acceptedFormats": [".pdf",".docx",".txt",".md"], "processorService": "ai", "processorMethod": "translate", "isPro": false, "isAI": true },
+    { "slug": "reescrever-texto", "name": "Reescrever", "category": "ai", "h1": "Reescrever texto com IA", "description": "Melhore, reformule ou simplifique textos.", "acceptedFormats": [".pdf",".docx",".txt",".md"], "processorService": "ai", "processorMethod": "rewrite", "isPro": false, "isAI": true },
+    { "slug": "extrair-dados", "name": "Extrair Dados", "category": "ai", "h1": "Extrair dados de documentos com IA", "description": "Extraia tabelas e informações estruturadas de PDFs.", "acceptedFormats": [".pdf",".docx"], "processorService": "ai", "processorMethod": "extractData", "isPro": false, "isAI": true },
+    { "slug": "chat-pdf", "name": "Chat com PDF", "category": "ai", "h1": "Conversar com seu PDF usando IA", "description": "Faça perguntas sobre o conteúdo do seu documento.", "acceptedFormats": [".pdf"], "processorService": "ai", "processorMethod": "chatPdf", "isPro": true, "isAI": true },
+    { "slug": "gerar-alt-text", "name": "Alt-text IA", "category": "ai", "h1": "Gerar descrição de imagem com IA", "description": "Crie alt-text acessível automaticamente.", "acceptedFormats": [".jpg",".jpeg",".png",".webp"], "processorService": "ai", "processorMethod": "altText", "isPro": false, "isAI": true },
+    { "slug": "ocr-imagem", "name": "OCR Imagem", "category": "ai", "h1": "Reconhecer texto em imagem com IA", "description": "Extraia texto de fotos, screenshots e scans.", "acceptedFormats": [".jpg",".jpeg",".png",".webp",".bmp",".tiff"], "processorService": "ai", "processorMethod": "ocrImage", "isPro": false, "isAI": true },
+    { "slug": "transcricao", "name": "Transcrição", "category": "ai", "h1": "Transcrever áudio e vídeo para texto", "description": "Converta áudio ou vídeo em texto com IA.", "acceptedFormats": [".mp3",".wav",".flac",".mp4",".mov",".webm"], "processorService": "ai", "processorMethod": "transcribeMedia", "isPro": false, "isAI": true }
+  ]
+}
