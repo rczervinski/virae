@@ -1,7 +1,9 @@
 services:
-  stirling-pdf:
-    image: stirlingtools/stirling-pdf:latest-fat
-    container_name: virae-stirling-pdf
+  virae-pdf:
+    build:
+      context: ./engine/pdf
+      dockerfile: Dockerfile.fat
+    container_name: virae-pdf-engine
     ports:
       - '8080:8080'
     environment:
@@ -9,12 +11,15 @@ services:
       - DOCKER_ENABLE_SECURITY=false
       - SECURITY_ENABLELOGIN=false
       - UI_APPNAME=Virae PDF
+      - UI_APPNAMENAVBAR=Virae PDF
+      - UI_HOMEDESCRIPTION=Editor de PDF completo do Virae
       - SYSTEM_DEFAULTLOCALE=pt-BR
-      - SYSTEM_ROOTURIPATH=/stirling
+      - SYSTEM_ROOTURIPATH=/engine/pdf
+      - SYSTEM_ENABLEANALYTICS=false
+      - DISABLE_PIXEL=true
     volumes:
-      - ./stirling-config/customFiles:/customFiles
-      - stirling-data:/configs
+      - virae-pdf-data:/configs
     restart: unless-stopped
 
 volumes:
-  stirling-data:
+  virae-pdf-data:

@@ -9,6 +9,26 @@
     convert: 'swap_horiz',
     ai: 'auto_awesome'
   };
+
+  // Subcategory order for PDF section
+  const pdfSubcategoryOrder = [
+    'Organizar',
+    'Converter para PDF',
+    'Converter de PDF',
+    'Assinatura & Seguranca',
+    'Visualizar & Editar',
+    'Avancado'
+  ];
+
+  // Subcategory icons
+  const subcategoryIconMap = {
+    'Organizar': 'folder_managed',
+    'Converter para PDF': 'input',
+    'Converter de PDF': 'output',
+    'Assinatura & Seguranca': 'shield_lock',
+    'Visualizar & Editar': 'edit_document',
+    'Avancado': 'build'
+  };
 %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -52,13 +72,19 @@
   </script>
 </head>
 <body>
+  <!-- Mouse-following Glow -->
+  <div class="mouse-glow" id="mouseGlow">
+    <div class="mouse-glow-inner" id="mouseGlowInner"></div>
+    <div class="mouse-glow-accent" id="mouseGlowAccent"></div>
+  </div>
+
   <%- include('partials/nav') %>
 
   <main class="index-main">
     <!-- Hero Section -->
     <section class="index-hero">
       <div class="hero-glow"></div>
-      <h1 class="index-h1">Todas as ferramentas. Um so lugar.</h1>
+      <h1 class="index-h1 shimmer-title">Todas as ferramentas. Um so lugar.</h1>
       <p class="index-subtitle">Converta, comprima e edite seus arquivos direto no navegador.</p>
 
       <!-- Search -->
@@ -94,31 +120,80 @@
               <span class="material-symbols-outlined category-icon" style="color: <%= cat.color %>;">
                 <%= categoryIconMap[cat.id] || 'build' %>
               </span>
-              <h2 class="category-title"><%= cat.name %></h2>
+              <h2 class="category-title shimmer-title"><%= cat.name %></h2>
               <span class="category-count"><%= catTools.length %> ferramentas</span>
             </div>
 
-            <div class="tools-grid">
-              <% catTools.forEach(function(t) { %>
-                <a href="/<%= t.slug %>" class="tool-card" data-name="<%= t.name.toLowerCase() %>" data-desc="<%= (t.description || '').toLowerCase() %>">
-                  <div class="tool-card-icon" style="background-color: <%= cat.color %>15;">
-                    <span class="material-symbols-outlined" style="color: <%= cat.color %>;">
-                      <%= categoryIconMap[cat.id] || 'build' %>
-                    </span>
-                  </div>
-                  <div class="tool-card-text">
-                    <span class="tool-card-name"><%= t.name %></span>
-                    <span class="tool-card-desc"><%= t.description || '' %></span>
-                  </div>
-                  <% if (t.isPro) { %>
-                    <span class="tool-card-badge badge-pro">PRO</span>
+            <% if (cat.id === 'pdf') { %>
+              <%
+                // Group PDF tools by subcategory
+                const subGroups = {};
+                catTools.forEach(function(t) {
+                  const sub = t.subcategory || 'Outros';
+                  if (!subGroups[sub]) subGroups[sub] = [];
+                  subGroups[sub].push(t);
+                });
+              %>
+              <div class="subcategory-container">
+                <% pdfSubcategoryOrder.forEach(function(subName) { %>
+                  <% const subTools = subGroups[subName]; %>
+                  <% if (subTools && subTools.length > 0) { %>
+                    <div class="subcategory-group">
+                      <div class="subcategory-header">
+                        <span class="material-symbols-outlined subcategory-icon" style="color: <%= cat.color %>;">
+                          <%= subcategoryIconMap[subName] || 'category' %>
+                        </span>
+                        <h3 class="subcategory-title shimmer-title"><%= subName %></h3>
+                        <span class="subcategory-count"><%= subTools.length %></span>
+                      </div>
+                      <div class="tools-grid">
+                        <% subTools.forEach(function(t) { %>
+                          <a href="/<%= t.slug %>" class="tool-card" data-name="<%= t.name.toLowerCase() %>" data-desc="<%= (t.description || '').toLowerCase() %>">
+                            <div class="tool-card-icon" style="background-color: <%= cat.color %>15;">
+                              <span class="material-symbols-outlined" style="color: <%= cat.color %>;">
+                                <%= t.icon || categoryIconMap[cat.id] || 'build' %>
+                              </span>
+                            </div>
+                            <div class="tool-card-text">
+                              <span class="tool-card-name"><%= t.name %></span>
+                              <span class="tool-card-desc"><%= t.description || '' %></span>
+                            </div>
+                            <% if (t.isPro) { %>
+                              <span class="tool-card-badge badge-pro">PRO</span>
+                            <% } %>
+                            <% if (t.isAI) { %>
+                              <span class="tool-card-badge badge-ai">IA</span>
+                            <% } %>
+                          </a>
+                        <% }); %>
+                      </div>
+                    </div>
                   <% } %>
-                  <% if (t.isAI) { %>
-                    <span class="tool-card-badge badge-ai">IA</span>
-                  <% } %>
-                </a>
-              <% }); %>
-            </div>
+                <% }); %>
+              </div>
+            <% } else { %>
+              <div class="tools-grid">
+                <% catTools.forEach(function(t) { %>
+                  <a href="/<%= t.slug %>" class="tool-card" data-name="<%= t.name.toLowerCase() %>" data-desc="<%= (t.description || '').toLowerCase() %>">
+                    <div class="tool-card-icon" style="background-color: <%= cat.color %>15;">
+                      <span class="material-symbols-outlined" style="color: <%= cat.color %>;">
+                        <%= t.icon || categoryIconMap[cat.id] || 'build' %>
+                      </span>
+                    </div>
+                    <div class="tool-card-text">
+                      <span class="tool-card-name"><%= t.name %></span>
+                      <span class="tool-card-desc"><%= t.description || '' %></span>
+                    </div>
+                    <% if (t.isPro) { %>
+                      <span class="tool-card-badge badge-pro">PRO</span>
+                    <% } %>
+                    <% if (t.isAI) { %>
+                      <span class="tool-card-badge badge-ai">IA</span>
+                    <% } %>
+                  </a>
+                <% }); %>
+              </div>
+            <% } %>
           </section>
 
           <% catIndex++; %>
@@ -131,7 +206,7 @@
 
     <!-- Pricing Section -->
     <section class="pricing-section">
-      <h2 class="section-title">Gratis vs PRO</h2>
+      <h2 class="section-title shimmer-title">Gratis vs PRO</h2>
       <div class="pricing-grid">
         <!-- Free -->
         <div class="pricing-card">
@@ -202,17 +277,58 @@
 
   <script src="/js/upload.js" defer></script>
   <script>
-    // Client-side tool search filter
     document.addEventListener('DOMContentLoaded', function() {
+      // ============================================================
+      // Mouse-following Glow
+      // ============================================================
+      var glowInner = document.getElementById('mouseGlowInner');
+      var glowAccent = document.getElementById('mouseGlowAccent');
+      var glowActive = false;
+
+      document.addEventListener('mousemove', function(e) {
+        if (!glowActive) {
+          glowInner.classList.add('active');
+          glowAccent.classList.add('active');
+          glowActive = true;
+        }
+        glowInner.style.left = e.clientX + 'px';
+        glowInner.style.top = e.clientY + 'px';
+        glowAccent.style.left = e.clientX + 'px';
+        glowAccent.style.top = e.clientY + 'px';
+      });
+
+      document.addEventListener('mouseleave', function() {
+        glowInner.classList.remove('active');
+        glowAccent.classList.remove('active');
+        glowActive = false;
+      });
+
+      // ============================================================
+      // Per-card glow (follows mouse within each card)
+      // ============================================================
+      var cards = document.querySelectorAll('.tool-card');
+      cards.forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+          var rect = card.getBoundingClientRect();
+          var x = e.clientX - rect.left;
+          var y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', x + 'px');
+          card.style.setProperty('--mouse-y', y + 'px');
+        });
+      });
+
+      // ============================================================
+      // Tool Search Filter
+      // ============================================================
       var searchInput = document.getElementById('toolSearch');
       if (!searchInput) return;
 
       searchInput.addEventListener('input', function() {
         var query = this.value.toLowerCase().trim();
-        var cards = document.querySelectorAll('.tool-card');
+        var allCards = document.querySelectorAll('.tool-card');
         var sections = document.querySelectorAll('.category-section');
 
-        cards.forEach(function(card) {
+        allCards.forEach(function(card) {
           var name = card.getAttribute('data-name') || '';
           var desc = card.getAttribute('data-desc') || '';
           if (!query || name.indexOf(query) !== -1 || desc.indexOf(query) !== -1) {
@@ -220,6 +336,13 @@
           } else {
             card.style.display = 'none';
           }
+        });
+
+        // Hide empty subcategory groups
+        var subGroups = document.querySelectorAll('.subcategory-group');
+        subGroups.forEach(function(group) {
+          var visibleCards = group.querySelectorAll('.tool-card:not([style*="display: none"])');
+          group.style.display = visibleCards.length === 0 ? 'none' : '';
         });
 
         // Hide empty category sections

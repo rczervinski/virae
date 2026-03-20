@@ -151,21 +151,17 @@
     </section>
 
     <% if (tool.stirlingRoute) { %>
-    <!-- Stirling-PDF Iframe Embed -->
-    <section class="stirling-embed">
-      <div class="stirling-iframe-container">
-        <div class="stirling-loading" id="stirlingLoading">
-          <div class="stirling-spinner"></div>
-          <span>Carregando ferramenta...</span>
-        </div>
-        <iframe
-          id="stirlingFrame"
-          src="/stirling<%= tool.stirlingRoute %>"
-          class="stirling-iframe"
-          frameborder="0"
-          allowfullscreen
-          onload="document.getElementById('stirlingLoading').style.display='none'"
-        ></iframe>
+    <!-- Engine CTA -->
+    <section class="engine-cta">
+      <div class="engine-cta-card">
+        <span class="material-symbols-outlined engine-cta-icon">open_in_new</span>
+        <h2 class="engine-cta-title"><%= tool.h1 %></h2>
+        <p class="engine-cta-desc">Abra nossa ferramenta completa de edicao de PDF para realizar esta operacao. Ambiente seguro, arquivos apagados em 1 hora.</p>
+        <a href="/engine/pdf<%= tool.stirlingRoute %>" class="engine-cta-btn" target="_blank" rel="noopener">
+          <span class="material-symbols-outlined">rocket_launch</span>
+          Abrir Editor de PDF
+        </a>
+        <p class="engine-cta-hint">Abre em uma nova aba com todas as ferramentas de PDF</p>
       </div>
     </section>
     <% } else { %>

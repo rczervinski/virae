@@ -22,15 +22,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Serve pdfjs-dist for client-side PDF preview
 app.use('/vendor/pdfjs', express.static(path.join(__dirname, 'node_modules', 'pdfjs-dist')));
 
-// Stirling-PDF reverse proxy
+// Virae PDF Engine reverse proxy
 const STIRLING_URL = process.env.STIRLING_PDF_URL || 'http://localhost:8080';
-app.use('/stirling', createProxyMiddleware({
+app.use('/engine/pdf', createProxyMiddleware({
   target: STIRLING_URL,
   changeOrigin: true,
-  pathRewrite: (path) => '/stirling' + path,
+  pathRewrite: (path) => '/engine/pdf' + path,
   on: {
     proxyRes: (proxyRes) => {
-      // Allow embedding in iframe
       delete proxyRes.headers['x-frame-options'];
       delete proxyRes.headers['content-security-policy'];
     }
