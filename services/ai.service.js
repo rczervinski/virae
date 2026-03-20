@@ -1,9 +1,11 @@
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const Anthropic = require('@anthropic-ai/sdk');
 
 const TMP_DIR = path.join(__dirname, '..', 'tmp');
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -509,6 +511,79 @@ const transcribeMedia = async (inputPath, options = {}) => {
 };
 
 // ---------------------------------------------------------------------------
+// Anthropic (Claude) Integration
+// ---------------------------------------------------------------------------
+
+/**
+ * Faz chamada para a API da Anthropic (Claude).
+ */
+const callAnthropic = async (userMessage, systemMessage = '', model = 'claude-haiku-4-5-20251001') => {
+  if (!ANTHROPIC_API_KEY) {
+    throw new Error(
+      'Chave da API Anthropic nao configurada. Adicione ANTHROPIC_API_KEY no arquivo .env'
+    );
+  }
+
+  const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+
+  const params = {
+    model,
+    max_tokens: 4096,
+    messages: [{ role: 'user', content: userMessage }],
+  };
+  if (systemMessage) {
+    params.system = systemMessage;
+  }
+
+  const response = await client.messages.create(params);
+  return response.content[0].text;
+};
+
+/**
+ * Assistente de IA para edicao de PDF.
+ * Recebe texto selecionado e uma acao, retorna texto processado.
+ */
+const pdfAiAssist = async (text, action, context = '') => {
+  const actionPrompts = {
+    improve: {
+      system: 'Voce e um editor de texto profissional em portugues brasileiro. Melhore o texto mantendo o significado original. Retorne APENAS o texto melhorado, sem explicacoes.',
+      user: `Melhore o seguinte texto:\n\n${text}`,
+    },
+    fix_grammar: {
+      system: 'Voce e um revisor gramatical especializado em portugues brasileiro. Corrija erros de ortografia, gramatica e pontuacao. Retorne APENAS o texto corrigido, sem explicacoes.',
+      user: `Corrija a gramatica do seguinte texto:\n\n${text}`,
+    },
+    rewrite: {
+      system: 'Voce e um redator profissional em portugues brasileiro. Reescreva o texto de forma mais clara e profissional. Retorne APENAS o texto reescrito, sem explicacoes.',
+      user: `Reescreva o seguinte texto:\n\n${text}`,
+    },
+    summarize: {
+      system: 'Voce e um assistente que resume textos de forma clara e concisa em portugues brasileiro. Retorne APENAS o resumo, sem explicacoes.',
+      user: `Resuma o seguinte texto:\n\n${text}`,
+    },
+    expand: {
+      system: 'Voce e um redator profissional em portugues brasileiro. Expanda o texto adicionando mais detalhes e contexto. Retorne APENAS o texto expandido, sem explicacoes.',
+      user: `Expanda o seguinte texto com mais detalhes:\n\n${text}`,
+    },
+    formalize: {
+      system: 'Voce e um redator corporativo em portugues brasileiro. Transforme o texto em linguagem formal e profissional. Retorne APENAS o texto formalizado, sem explicacoes.',
+      user: `Transforme o seguinte texto em linguagem formal:\n\n${text}`,
+    },
+  };
+
+  const prompt = actionPrompts[action];
+  if (!prompt) {
+    throw new Error(`Acao de IA desconhecida: ${action}`);
+  }
+
+  if (context) {
+    prompt.user += `\n\nContexto da pagina:\n${context}`;
+  }
+
+  return callAnthropic(prompt.user, prompt.system);
+};
+
+// ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
 
@@ -522,8 +597,10 @@ module.exports = {
   extractData,
   transcribe,
   transcribeMedia,
+  pdfAiAssist,
   // Helpers expostos para testes
   extractText,
   callOpenAI,
   callOpenAIVision,
+  callAnthropic,
 };

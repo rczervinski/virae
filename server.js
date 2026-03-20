@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const sessionMiddleware = require(path.join(__dirname, 'middleware', 'session'));
 
 const app = express();
@@ -20,6 +21,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve pdfjs-dist for client-side PDF preview
 app.use('/vendor/pdfjs', express.static(path.join(__dirname, 'node_modules', 'pdfjs-dist')));
+
+// Stirling-PDF reverse proxy
+const STIRLING_URL = process.env.STIRLING_PDF_URL || 'http://localhost:8080';
+app.use('/stirling', createProxyMiddleware({
+  target: STIRLING_URL,
+  changeOrigin: true,
+  pathRewrite: (path) => '/stirling' + path,
+  on: {
+    proxyRes: (proxyRes) => {
+      // Allow embedding in iframe
+      delete proxyRes.headers['x-frame-options'];
+      delete proxyRes.headers['content-security-policy'];
+    }
+  }
+}));
 
 // Session
 app.use(sessionMiddleware);

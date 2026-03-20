@@ -79,6 +79,9 @@
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/landing.css">
   <link rel="stylesheet" href="/css/components.css">
+  <% if (tool.slug === 'editar-pdf' && !tool.stirlingRoute) { %>
+  <link rel="stylesheet" href="/css/pdf-editor.css">
+  <% } %>
 
   <!-- JSON-LD: FAQPage -->
   <% if (tool.faq && tool.faq.length > 0) { %>
@@ -147,6 +150,25 @@
       <p class="tool-description"><%= tool.description %></p>
     </section>
 
+    <% if (tool.stirlingRoute) { %>
+    <!-- Stirling-PDF Iframe Embed -->
+    <section class="stirling-embed">
+      <div class="stirling-iframe-container">
+        <div class="stirling-loading" id="stirlingLoading">
+          <div class="stirling-spinner"></div>
+          <span>Carregando ferramenta...</span>
+        </div>
+        <iframe
+          id="stirlingFrame"
+          src="/stirling<%= tool.stirlingRoute %>"
+          class="stirling-iframe"
+          frameborder="0"
+          allowfullscreen
+          onload="document.getElementById('stirlingLoading').style.display='none'"
+        ></iframe>
+      </div>
+    </section>
+    <% } else { %>
     <!-- Upload Area -->
     <%- include('partials/upload-area', { tool: tool, user: typeof user !== 'undefined' ? user : null }) %>
 
@@ -304,16 +326,23 @@
         data-service="<%= tool.processorService %>"
         data-method="<%= tool.processorMethod %>"
       >
-        Processar <%= categoryName %>
+        <% if (tool.slug === 'editar-pdf') { %>
+          <span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;margin-right:4px">edit_document</span> Abrir Editor
+        <% } else { %>
+          Processar <%= categoryName %>
+        <% } %>
       </button>
     </section>
     <% } %>
+    <% } %>
 
+    <% if (!tool.stirlingRoute) { %>
     <!-- Ad Slot Top -->
     <%- include('partials/ad-slot', { slotId: 'ad-top', adSlotId: '1000000001', user: typeof user !== 'undefined' ? user : null }) %>
 
     <!-- Result Area -->
     <%- include('partials/tool-result') %>
+    <% } %>
 
     <!-- How It Works -->
     <% if (tool.steps && tool.steps.length > 0) { %>
@@ -398,6 +427,11 @@
 
   <%- include('partials/footer') %>
 
+  <% if (!tool.stirlingRoute) { %>
   <script src="/js/upload.js" defer></script>
+  <% } %>
+  <% if (tool.slug === 'editar-pdf' && !tool.stirlingRoute) { %>
+  <script src="/js/pdf-editor.js" defer></script>
+  <% } %>
 </body>
 </html>

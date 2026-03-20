@@ -111,6 +111,14 @@ router.post('/process/:slug', upload.single('file'), async (req, res) => {
       });
     }
 
+    // PDF tools now handled by Stirling-PDF
+    if (tool.stirlingRoute) {
+      return res.status(410).json({
+        success: false,
+        message: 'Esta ferramenta agora e processada pelo Stirling-PDF.'
+      });
+    }
+
     if (!req.file) {
       return res.status(400).json({
         success: false,
@@ -261,6 +269,118 @@ router.post('/upload', upload.array('files', 20), (req, res) => {
       success: false,
       message: err.message || 'Erro ao enviar arquivos.'
     });
+  }
+});
+
+// ─── PDF Editor Endpoints (estilo iLovePDF) ────────────────
+
+/**
+ * POST /api/pdf-editor/load
+ * Recebe PDF via multer, armazena no tmp e retorna info basica.
+ * O frontend usa pdfjs para renderizar e extrair texto client-side.
+ */
+router.post('/pdf-editor/load', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Nenhum arquivo enviado.' });
+    }
+
+    const ext = path.extname(req.file.originalname).toLowerCase();
+    if (ext !== '.pdf') {
+      fs.unlink(req.file.path, () => {});
+      return res.status(400).json({ success: false, message: 'Apenas arquivos PDF sao aceitos.' });
+    }
+
+    const pdfService = services.pdf;
+    if (!pdfService || typeof pdfService.editLoad !== 'function') {
+      return res.status(501).json({ success: false, message: 'Editor PDF nao disponivel.' });
+    }
+
+    const result = await pdfService.editLoad(req.file.path);
+
+    res.json({
+      success: true,
+      pdfId: result.pdfId,
+      pdfUrl: result.pdfUrl,
+      pageCount: result.pageCount,
+      pages: result.pages,
+      fontData: result.fontData || null,
+      originalName: req.file.originalname,
+    });
+  } catch (err) {
+    console.error('PDF Editor load error:', err);
+    res.status(500).json({ success: false, message: err.message || 'Erro ao carregar PDF.' });
+  }
+});
+
+/**
+ * POST /api/pdf-editor/ai-assist
+ * Recebe texto + acao de IA, retorna texto processado pela Anthropic (Claude).
+ */
+router.post('/pdf-editor/ai-assist', express.json(), async (req, res) => {
+  try {
+    const { text, action, context } = req.body;
+
+    if (!text || !text.trim()) {
+      return res.status(400).json({ success: false, message: 'Nenhum texto fornecido.' });
+    }
+    if (!action) {
+      return res.status(400).json({ success: false, message: 'Nenhuma acao especificada.' });
+    }
+
+    const aiService = services.ai;
+    if (!aiService || typeof aiService.pdfAiAssist !== 'function') {
+      return res.status(501).json({ success: false, message: 'Servico de IA nao disponivel.' });
+    }
+
+    const result = await aiService.pdfAiAssist(text, action, context || '');
+
+    res.json({
+      success: true,
+      result,
+    });
+  } catch (err) {
+    console.error('PDF AI assist error:', err);
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Erro ao processar com IA.',
+    });
+  }
+});
+
+/**
+ * POST /api/pdf-editor/save
+ * Recebe pdfId + JSON de alteracoes, gera novo PDF com as edicoes.
+ */
+router.post('/pdf-editor/save', express.json({ limit: '10mb' }), async (req, res) => {
+  try {
+    const { pdfId, changes } = req.body;
+
+    if (!pdfId) {
+      return res.status(400).json({ success: false, message: 'ID do PDF nao fornecido.' });
+    }
+    if (!changes || !Array.isArray(changes)) {
+      return res.status(400).json({ success: false, message: 'Nenhuma alteracao fornecida.' });
+    }
+
+    const pdfService = services.pdf;
+    if (!pdfService || typeof pdfService.editSave !== 'function') {
+      return res.status(501).json({ success: false, message: 'Editor PDF nao disponivel.' });
+    }
+
+    const result = await pdfService.editSave(pdfId, changes);
+
+    res.json({
+      success: true,
+      message: 'PDF editado com sucesso!',
+      filename: result.filename,
+      downloadUrl: result.downloadUrl,
+      originalSize: result.originalSize,
+      size: result.newSize,
+    });
+  } catch (err) {
+    console.error('PDF Editor save error:', err);
+    res.status(500).json({ success: false, message: err.message || 'Erro ao salvar edicao.' });
   }
 });
 

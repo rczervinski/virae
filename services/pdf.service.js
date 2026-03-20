@@ -1481,6 +1481,248 @@ async function edit(inputPath, options = {}) {
   }
 }
 
+// ─── Editor PDF Visual (estilo iLovePDF) ─────────────────────
+
+/**
+ * editLoad — Recebe o PDF, armazena no tmp e retorna dados basicos.
+ * Usa PyMuPDF (via Python) para extrair texto com metadados de fonte.
+ */
+async function editLoad(inputPath) {
+  const pdfId = uuidv4();
+  const storedPath = path.join(TMP_DIR, `${pdfId}.pdf`);
+
+  try {
+    // Copiar o PDF para o tmp com ID unico
+    fs.copyFileSync(inputPath, storedPath);
+
+    // Ler info basica com pdf-lib
+    const inputBytes = fs.readFileSync(storedPath);
+    const pdfDoc = await PDFDocument.load(inputBytes, { ignoreEncryption: true });
+    const pageCount = pdfDoc.getPageCount();
+
+    const pagesInfo = [];
+    for (let i = 0; i < pageCount; i++) {
+      const page = pdfDoc.getPage(i);
+      const { width, height } = page.getSize();
+      pagesInfo.push({ pageNum: i + 1, width, height });
+    }
+
+    // Extrair metadados de fonte via PyMuPDF
+    let fontData = null;
+    try {
+      fontData = await extractFontsWithPython(storedPath);
+    } catch (pyErr) {
+      console.warn('PyMuPDF extraction failed, falling back to basic mode:', pyErr.message);
+    }
+
+    return {
+      pdfId,
+      pdfUrl: `/api/download/${pdfId}.pdf`,
+      pageCount,
+      pages: pagesInfo,
+      fontData, // null if PyMuPDF not available
+    };
+  } catch (error) {
+    safeUnlink(storedPath);
+    throw new Error(`Erro ao carregar PDF para edicao: ${error.message}`);
+  }
+}
+
+/**
+ * extractFontsWithPython — Chama o script Python pdf_extract.py
+ * para extrair texto com metadados de fonte via PyMuPDF.
+ */
+function extractFontsWithPython(pdfPath) {
+  return new Promise((resolve, reject) => {
+    const scriptPath = path.join(__dirname, '..', 'scripts', 'pdf_extract.py');
+    const child = execFile('python3', [scriptPath, pdfPath], {
+      maxBuffer: 50 * 1024 * 1024, // 50MB buffer for large PDFs
+      timeout: 30000,
+    }, (error, stdout, stderr) => {
+      if (error) {
+        return reject(new Error(`Python extraction failed: ${error.message}`));
+      }
+      try {
+        const result = JSON.parse(stdout);
+        if (result.error) {
+          return reject(new Error(result.error));
+        }
+        resolve(result);
+      } catch (parseErr) {
+        reject(new Error(`Failed to parse Python output: ${parseErr.message}`));
+      }
+    });
+  });
+}
+
+/**
+ * editSave — Recebe o pdfId e um JSON de alteracoes,
+ * aplica redacao + novo texto e gera o PDF final.
+ *
+ * changes = [{
+ *   pageNum: 1,
+ *   modifications: [{
+ *     type: 'edit',     // editar bloco existente
+ *     originalText: 'texto original',
+ *     newText: 'texto editado',
+ *     x: 72, y: 720,   // coords PDF (origin bottom-left)
+ *     width: 200, height: 14,
+ *     fontSize: 12,
+ *     fontFamily: 'helvetica',
+ *     fontWeight: 'normal',
+ *     color: '#000000'
+ *   }],
+ *   additions: [{
+ *     type: 'add',
+ *     text: 'novo texto',
+ *     x: 100, y: 500,   // coords PDF (origin bottom-left)
+ *     fontSize: 16,
+ *     fontWeight: 'normal',
+ *     color: '#000000'
+ *   }]
+ * }]
+ */
+async function editSave(pdfId, changes) {
+  const inputPath = path.join(TMP_DIR, `${pdfId}.pdf`);
+  const outputId = uuidv4();
+  const outputPath = path.join(TMP_DIR, `${outputId}.pdf`);
+
+  if (!fs.existsSync(inputPath)) {
+    throw new Error('PDF original nao encontrado. O arquivo pode ter expirado.');
+  }
+
+  try {
+    const originalSize = fs.statSync(inputPath).size;
+
+    // Tentar salvar via PyMuPDF (preserva fontes e usa redaction real)
+    try {
+      const result = await saveWithPython(inputPath, outputPath, changes);
+      if (result.success) {
+        const newSize = fs.statSync(outputPath).size;
+        return {
+          outputPath,
+          filename: `${outputId}.pdf`,
+          downloadUrl: `/api/download/${outputId}.pdf`,
+          originalSize,
+          newSize,
+        };
+      }
+    } catch (pyErr) {
+      console.warn('PyMuPDF save failed, falling back to pdf-lib:', pyErr.message);
+    }
+
+    // Fallback: usar pdf-lib (sem preservacao de fonte)
+    const inputBytes = fs.readFileSync(inputPath);
+    const pdfDoc = await PDFDocument.load(inputBytes, { ignoreEncryption: true });
+
+    const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+    const pages = pdfDoc.getPages();
+
+    for (const change of changes) {
+      const pageIdx = change.pageNum - 1;
+      if (pageIdx < 0 || pageIdx >= pages.length) continue;
+      const page = pages[pageIdx];
+
+      if (change.modifications && Array.isArray(change.modifications)) {
+        for (const mod of change.modifications) {
+          const font = mod.fontWeight === 'bold' ? helveticaBold : helvetica;
+          const fontSize = mod.fontSize || 12;
+          const hexColor = (mod.color || '#000000').replace('#', '');
+          const r = parseInt(hexColor.substring(0, 2), 16) / 255;
+          const g = parseInt(hexColor.substring(2, 4), 16) / 255;
+          const b = parseInt(hexColor.substring(4, 6), 16) / 255;
+
+          const padding = 2;
+          page.drawRectangle({
+            x: mod.x - padding,
+            y: mod.y - padding,
+            width: (mod.width || 200) + padding * 2,
+            height: (mod.height || fontSize * 1.2) + padding * 2,
+            color: rgb(1, 1, 1),
+          });
+
+          if (mod.newText && mod.newText.trim()) {
+            const lines = mod.newText.split('\n');
+            let currentY = mod.y + (mod.height || fontSize * 1.2) - fontSize;
+            for (const line of lines) {
+              page.drawText(line, { x: mod.x, y: currentY, size: fontSize, font, color: rgb(r, g, b) });
+              currentY -= fontSize * 1.3;
+            }
+          }
+        }
+      }
+
+      if (change.additions && Array.isArray(change.additions)) {
+        for (const add of change.additions) {
+          const font = add.fontWeight === 'bold' ? helveticaBold : helvetica;
+          const fontSize = add.fontSize || 16;
+          const hexColor = (add.color || '#000000').replace('#', '');
+          const r = parseInt(hexColor.substring(0, 2), 16) / 255;
+          const g = parseInt(hexColor.substring(2, 4), 16) / 255;
+          const b = parseInt(hexColor.substring(4, 6), 16) / 255;
+
+          if (add.text && add.text.trim()) {
+            const lines = add.text.split('\n');
+            let currentY = add.y;
+            for (const line of lines) {
+              page.drawText(line, { x: add.x, y: currentY, size: fontSize, font, color: rgb(r, g, b) });
+              currentY -= fontSize * 1.3;
+            }
+          }
+        }
+      }
+    }
+
+    const savedBytes = await pdfDoc.save();
+    fs.writeFileSync(outputPath, savedBytes);
+    const newSize = fs.statSync(outputPath).size;
+
+    return {
+      outputPath,
+      filename: `${outputId}.pdf`,
+      downloadUrl: `/api/download/${outputId}.pdf`,
+      originalSize,
+      newSize,
+    };
+  } catch (error) {
+    safeUnlink(outputPath);
+    throw new Error(`Erro ao salvar edicao do PDF: ${error.message}`);
+  }
+}
+
+/**
+ * saveWithPython — Chama o script Python pdf_save.py
+ * para salvar com PyMuPDF (preserva fontes, usa add_redact_annot).
+ */
+function saveWithPython(inputPath, outputPath, changes) {
+  return new Promise((resolve, reject) => {
+    const scriptPath = path.join(__dirname, '..', 'scripts', 'pdf_save.py');
+    const child = execFile('python3', [scriptPath, inputPath, outputPath], {
+      maxBuffer: 50 * 1024 * 1024,
+      timeout: 60000,
+    }, (error, stdout, stderr) => {
+      if (error) {
+        return reject(new Error(`Python save failed: ${error.message}`));
+      }
+      try {
+        const result = JSON.parse(stdout);
+        if (result.error) {
+          return reject(new Error(result.error));
+        }
+        resolve(result);
+      } catch (parseErr) {
+        reject(new Error(`Failed to parse Python output: ${parseErr.message}`));
+      }
+    });
+
+    // Send changes as JSON via stdin
+    child.stdin.write(JSON.stringify(changes));
+    child.stdin.end();
+  });
+}
+
 module.exports = {
   compress,
   merge,
@@ -1497,4 +1739,6 @@ module.exports = {
   toPpt,
   fromWord,
   edit,
+  editLoad,
+  editSave,
 };

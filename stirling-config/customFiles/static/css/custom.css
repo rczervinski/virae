@@ -1,0 +1,162 @@
+/*
+ * Virae — Custom Stirling-PDF Theme
+ * Dark theme override to match Virae's design system.
+ * Loaded via Docker volume: /customFiles/static/css/custom.css
+ */
+
+/* Hide Stirling-PDF chrome when embedded in iframe */
+nav,
+header,
+footer,
+.navbar,
+.footer,
+[class*="Navbar"],
+[class*="Footer"],
+[class*="navbar"],
+[class*="footer"] {
+  display: none !important;
+}
+
+/* Dark background matching Virae */
+html, body {
+  background-color: #131318 !important;
+  color: #e4e1e9 !important;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* Main container — fill viewport without navbar */
+main,
+[class*="AppShell"],
+[class*="main"] {
+  padding-top: 1rem !important;
+  min-height: 100vh !important;
+}
+
+/* Surface containers */
+[class*="Paper"],
+[class*="Card"],
+[class*="card"],
+.mantine-Paper-root {
+  background-color: #1f1f25 !important;
+  border-color: #474554 !important;
+  border-radius: 0.75rem !important;
+}
+
+/* Buttons — Virae primary purple */
+button[class*="filled"],
+.mantine-Button-root[data-variant="filled"] {
+  background-color: #6c5ce7 !important;
+  color: #fff !important;
+  border-radius: 0.5rem !important;
+}
+
+button[class*="filled"]:hover,
+.mantine-Button-root[data-variant="filled"]:hover {
+  background-color: #5a4bd6 !important;
+}
+
+/* Outlined buttons */
+button[class*="outline"],
+.mantine-Button-root[data-variant="outline"] {
+  border-color: #474554 !important;
+  color: #c6bfff !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Inputs */
+input,
+textarea,
+select,
+.mantine-Input-input,
+.mantine-TextInput-input,
+.mantine-Select-input {
+  background-color: #1b1b20 !important;
+  border-color: #474554 !important;
+  color: #e4e1e9 !important;
+  border-radius: 0.5rem !important;
+}
+
+input:focus,
+textarea:focus,
+.mantine-Input-input:focus {
+  border-color: #6c5ce7 !important;
+}
+
+/* Dropzone / Upload area */
+[class*="Dropzone"],
+[class*="dropzone"] {
+  background-color: #1b1b20 !important;
+  border-color: #474554 !important;
+  border-style: dashed !important;
+  border-radius: 0.75rem !important;
+}
+
+[class*="Dropzone"]:hover,
+[class*="dropzone"]:hover {
+  border-color: #6c5ce7 !important;
+  background-color: rgba(108, 92, 231, 0.05) !important;
+}
+
+/* Text colors */
+h1, h2, h3, h4, h5, h6,
+[class*="Title"],
+.mantine-Title-root {
+  color: #e4e1e9 !important;
+}
+
+p, span, label, div {
+  color: #c8c4d7;
+}
+
+/* Links */
+a {
+  color: #c6bfff !important;
+}
+a:hover {
+  color: #e4e1e9 !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #131318;
+}
+::-webkit-scrollbar-thumb {
+  background: #474554;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #928ea0;
+}
+
+/* Tooltips and modals */
+.mantine-Modal-content,
+.mantine-Tooltip-tooltip {
+  background-color: #2a292f !important;
+  color: #e4e1e9 !important;
+  border-radius: 0.75rem !important;
+}
+
+/* Progress bars */
+[class*="Progress"] {
+  background-color: #474554 !important;
+}
+[class*="Progress"] [class*="bar"] {
+  background-color: #6c5ce7 !important;
+}
+
+/* Dividers */
+hr, [class*="Divider"] {
+  border-color: #474554 !important;
+}
+
+/* Tabs */
+.mantine-Tabs-tab {
+  color: #c8c4d7 !important;
+}
+.mantine-Tabs-tab[data-active] {
+  color: #c6bfff !important;
+  border-color: #6c5ce7 !important;
+}

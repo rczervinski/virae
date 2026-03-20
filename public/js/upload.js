@@ -401,8 +401,24 @@
     resetProcessBtn();
   };
 
+  // ─── PDF Editor mode ────────────────────────────────────────
+  const isEditarPdf = processBtn && processBtn.dataset.slug === 'editar-pdf';
+
+  // Expose reset function for editor to call when closing
+  window.resetUploadForEditor = resetUpload;
+
   // ─── Processar arquivo ──────────────────────────────────────
   const handleProcess = () => {
+    // Editar PDF: open visual editor
+    if (isEditarPdf) {
+      if (!selectedFile) {
+        showToast('Selecione um arquivo PDF primeiro.', 'error');
+        return;
+      }
+      uploadForEditor(selectedFile);
+      return;
+    }
+
     // Merge-pdf: multi-file mode
     if (isMergePdf) {
       if (selectedFiles.length < 2) {
@@ -499,6 +515,75 @@
     }
 
     sendFile(slug, formData);
+  };
+
+  // ─── Upload para o Editor PDF Visual ────────────────────────
+  const uploadForEditor = async (file) => {
+    if (processBtn) {
+      processBtn.disabled = true;
+      processBtn.textContent = 'Abrindo editor...';
+    }
+
+    showProgress();
+    updateProgress(10, 'Enviando PDF...');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable) {
+            const pct = Math.round((e.loaded / e.total) * 60);
+            updateProgress(pct, `Enviando... ${Math.round((e.loaded / e.total) * 100)}%`);
+          }
+        });
+
+        xhr.addEventListener('load', () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              resolve(JSON.parse(xhr.responseText));
+            } catch {
+              reject(new Error('Resposta invalida do servidor.'));
+            }
+          } else {
+            let msg = 'Erro ao carregar PDF.';
+            try { msg = JSON.parse(xhr.responseText).message || msg; } catch {}
+            reject(new Error(msg));
+          }
+        });
+
+        xhr.addEventListener('error', () => reject(new Error('Erro de conexao.')));
+        xhr.open('POST', '/api/pdf-editor/load');
+        xhr.send(formData);
+      });
+
+      updateProgress(80, 'Abrindo editor...');
+
+      if (!response.success) {
+        throw new Error(response.message || 'Erro ao carregar PDF.');
+      }
+
+      updateProgress(100, 'Pronto!');
+
+      setTimeout(() => {
+        hideProgress();
+        // Open the visual editor (defined in pdf-editor.js)
+        if (typeof window.openPdfEditor === 'function') {
+          window.openPdfEditor(response);
+        } else {
+          showToast('Erro: modulo do editor nao carregado.', 'error');
+        }
+        resetProcessBtn();
+      }, 300);
+
+    } catch (err) {
+      hideProgress();
+      showToast(err.message || 'Erro ao abrir editor.', 'error');
+      resetProcessBtn();
+    }
   };
 
   // ─── Envio com progresso (XHR) ──────────────────────────────

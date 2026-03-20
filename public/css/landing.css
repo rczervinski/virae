@@ -1277,3 +1277,65 @@
     font-size: 5rem;
   }
 }
+
+/* ============================================================
+   13. Stirling-PDF Iframe Embed
+   ============================================================ */
+.stirling-embed {
+  width: 100%;
+}
+
+.stirling-iframe-container {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  min-height: 700px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-outline-variant);
+  overflow: hidden;
+  background-color: var(--color-surface-container);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.stirling-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: var(--color-background);
+}
+
+.stirling-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background-color: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  z-index: 2;
+}
+
+.stirling-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-outline-variant);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: stirling-spin 0.8s linear infinite;
+}
+
+@keyframes stirling-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 639px) {
+  .stirling-iframe-container {
+    height: 70vh;
+    min-height: 500px;
+    border-radius: 0.75rem;
+  }
+}
