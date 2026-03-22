@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware, responseInterceptor } = require('http-proxy-middleware');
 const sessionMiddleware = require(path.join(__dirname, 'middleware', 'session'));
 
 const app = express();
@@ -23,16 +23,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/vendor/pdfjs', express.static(path.join(__dirname, 'node_modules', 'pdfjs-dist')));
 
 // Virae PDF Engine reverse proxy
+// STIRLING_CONTEXT_PATH must match SYSTEM_ROOTURIPATH on the container
+// Default: /engine/pdf (matches docker-compose.yml with Stirling v0.46.2)
+// For official latest image use STIRLING_CONTEXT_PATH=/stirling
 const STIRLING_URL = process.env.STIRLING_PDF_URL || 'http://localhost:8080';
+const STIRLING_CTX = process.env.STIRLING_CONTEXT_PATH || '/engine/pdf';
 app.use('/engine/pdf', createProxyMiddleware({
   target: STIRLING_URL,
   changeOrigin: true,
-  pathRewrite: (path) => '/engine/pdf' + path,
+  selfHandleResponse: true,
+  pathRewrite: (path) => STIRLING_CTX + path,
   on: {
-    proxyRes: (proxyRes) => {
+    proxyRes: responseInterceptor(async (responseBuffer, proxyRes, req, res) => {
       delete proxyRes.headers['x-frame-options'];
       delete proxyRes.headers['content-security-policy'];
-    }
+      // Rewrite context path in HTML/JS so browser assets resolve correctly
+      const contentType = proxyRes.headers['content-type'] || '';
+      if (STIRLING_CTX !== '/engine/pdf' && (contentType.includes('text/html') || contentType.includes('javascript'))) {
+        return responseBuffer.toString('utf8')
+          .replaceAll(STIRLING_CTX + '/', '/engine/pdf/')
+          .replaceAll("'" + STIRLING_CTX + "'", "'/engine/pdf'");
+      }
+      return responseBuffer;
+    })
   }
 }));
 

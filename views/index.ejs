@@ -50,6 +50,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
+
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/landing.css">
@@ -72,11 +75,6 @@
   </script>
 </head>
 <body>
-  <!-- Mouse-following Glow -->
-  <div class="mouse-glow" id="mouseGlow">
-    <div class="mouse-glow-inner" id="mouseGlowInner"></div>
-    <div class="mouse-glow-accent" id="mouseGlowAccent"></div>
-  </div>
 
   <%- include('partials/nav') %>
 
@@ -108,6 +106,26 @@
         <span class="index-stat">Arquivos apagados em 1h</span>
       </div>
     </section>
+
+    <!-- Category Carousel -->
+    <% if (typeof categories !== 'undefined' && typeof grouped !== 'undefined') { %>
+      <div class="category-carousel-wrapper">
+        <div class="category-carousel" id="categoryCarousel">
+          <% categories.forEach(function(cat) { %>
+            <% const catTools = grouped[cat.id]; %>
+            <% if (catTools && catTools.length > 0) { %>
+              <a href="#<%= cat.slug %>" class="carousel-pill" data-cat="<%= cat.id %>">
+                <div class="carousel-pill-inner">
+                  <span class="material-symbols-outlined carousel-pill-icon"><%= categoryIconMap[cat.id] || 'build' %></span>
+                  <span class="carousel-pill-name"><%= cat.name %></span>
+                  <span class="carousel-pill-count"><%= catTools.length %></span>
+                </div>
+              </a>
+            <% } %>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
 
     <!-- Tool Categories -->
     <% if (typeof categories !== 'undefined' && typeof grouped !== 'undefined') { %>
@@ -278,30 +296,6 @@
   <script src="/js/upload.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // ============================================================
-      // Mouse-following Glow
-      // ============================================================
-      var glowInner = document.getElementById('mouseGlowInner');
-      var glowAccent = document.getElementById('mouseGlowAccent');
-      var glowActive = false;
-
-      document.addEventListener('mousemove', function(e) {
-        if (!glowActive) {
-          glowInner.classList.add('active');
-          glowAccent.classList.add('active');
-          glowActive = true;
-        }
-        glowInner.style.left = e.clientX + 'px';
-        glowInner.style.top = e.clientY + 'px';
-        glowAccent.style.left = e.clientX + 'px';
-        glowAccent.style.top = e.clientY + 'px';
-      });
-
-      document.addEventListener('mouseleave', function() {
-        glowInner.classList.remove('active');
-        glowAccent.classList.remove('active');
-        glowActive = false;
-      });
 
       // ============================================================
       // Per-card glow (follows mouse within each card)
@@ -351,6 +345,44 @@
           section.style.display = visibleCards.length === 0 ? 'none' : '';
         });
       });
+
+      // ============================================================
+      // Category Carousel Auto-Scroll
+      // ============================================================
+      var carousel = document.getElementById('categoryCarousel');
+      if (carousel) {
+        var scrollSpeed = 0.4;
+        var scrollDirection = 1;
+        var accumulator = 0;
+        var autoScrollPaused = false;
+
+        function autoScroll() {
+          if (!autoScrollPaused) {
+            accumulator += scrollSpeed;
+            if (accumulator >= 1) {
+              var px = Math.floor(accumulator);
+              accumulator -= px;
+              carousel.scrollLeft += px * scrollDirection;
+              var maxScroll = carousel.scrollWidth - carousel.clientWidth;
+              if (carousel.scrollLeft >= maxScroll - 1) {
+                scrollDirection = -1;
+              } else if (carousel.scrollLeft <= 1) {
+                scrollDirection = 1;
+              }
+            }
+          }
+          requestAnimationFrame(autoScroll);
+        }
+
+        carousel.addEventListener('mouseenter', function() { autoScrollPaused = true; });
+        carousel.addEventListener('mouseleave', function() { autoScrollPaused = false; });
+        carousel.addEventListener('touchstart', function() { autoScrollPaused = true; }, { passive: true });
+        carousel.addEventListener('touchend', function() {
+          setTimeout(function() { autoScrollPaused = false; }, 2000);
+        });
+
+        requestAnimationFrame(autoScroll);
+      }
     });
   </script>
 </body>

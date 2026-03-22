@@ -856,6 +856,42 @@
   position: relative;
   width: 100%;
   max-width: 28rem;
+  border-radius: 0.75rem;
+  padding: 2px;
+  animation: neon-border-rotate 4s linear infinite;
+  background: conic-gradient(
+    from var(--neon-angle, 0deg),
+    #6c5ce7 0%,
+    #46eae5 25%,
+    #c6bfff 50%,
+    #46eae5 75%,
+    #6c5ce7 100%
+  );
+}
+
+/* Glow behind search bar */
+.index-search-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 0.85rem;
+  background: conic-gradient(
+    from var(--neon-angle, 0deg),
+    #6c5ce7 0%,
+    #46eae5 25%,
+    #6c5ce7 50%,
+    #46eae5 75%,
+    #6c5ce7 100%
+  );
+  filter: blur(10px);
+  opacity: 0.25;
+  z-index: -1;
+  animation: neon-border-rotate 4s linear infinite;
+  transition: opacity 0.3s ease;
+}
+
+.index-search-wrapper:focus-within::after {
+  opacity: 0.45;
 }
 
 .index-search-icon {
@@ -866,26 +902,24 @@
   color: var(--color-outline);
   font-size: 1.25rem;
   pointer-events: none;
+  z-index: 1;
 }
 
 .index-search {
   width: 100%;
   background-color: var(--color-surface-container-lowest);
   color: var(--color-on-surface);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: 0.75rem;
+  border: none;
+  border-radius: calc(0.75rem - 2px);
   padding: 0.75rem 1rem 0.75rem 3rem;
   font-size: 0.9375rem;
   font-family: var(--font-body);
-  transition:
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
+  position: relative;
+  z-index: 1;
 }
 
 .index-search:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
 }
 
 .index-search::placeholder {
@@ -1408,69 +1442,6 @@
   }
 }
 
-/* ============================================================
-   14. Mouse-following Glow Effect
-   ============================================================ */
-.mouse-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.mouse-glow-inner {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(108, 92, 231, 0.08) 0%,
-    rgba(70, 234, 229, 0.04) 35%,
-    transparent 70%
-  );
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  will-change: left, top;
-  transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              top 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.4s ease;
-  opacity: 0;
-}
-
-.mouse-glow-inner.active {
-  opacity: 1;
-}
-
-/* Secondary smaller glow — tighter, brighter */
-.mouse-glow-accent {
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(108, 92, 231, 0.12) 0%,
-    rgba(198, 191, 255, 0.05) 40%,
-    transparent 70%
-  );
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  will-change: left, top;
-  transition: left 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              top 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.4s ease;
-  opacity: 0;
-}
-
-.mouse-glow-accent.active {
-  opacity: 1;
-}
-
 /* Tool cards get interactive glow on hover */
 .tool-card {
   overflow: hidden;
@@ -1589,3 +1560,187 @@
 .category-section:nth-child(5) .shimmer-title { --shimmer-delay: 2s; }
 .category-section:nth-child(6) .shimmer-title { --shimmer-delay: 2.5s; }
 .category-section:nth-child(7) .shimmer-title { --shimmer-delay: 3s; }
+
+/* ============================================================
+   16. Category Carousel with Neon Borders
+   ============================================================ */
+@keyframes neon-border-rotate {
+  0%   { --neon-angle: 0deg; }
+  100% { --neon-angle: 360deg; }
+}
+
+@property --neon-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.category-carousel-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0;
+}
+
+.category-carousel {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem 2rem;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+
+.category-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-pill {
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  border-radius: 0.75rem;
+  padding: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  animation: neon-border-rotate 3s linear infinite;
+  background: conic-gradient(
+    from var(--neon-angle),
+    var(--pill-color) 0%,
+    var(--pill-color-dim) 25%,
+    var(--pill-color) 50%,
+    var(--pill-color-dim) 75%,
+    var(--pill-color) 100%
+  );
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.carousel-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px var(--pill-glow);
+}
+
+.carousel-pill-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--color-surface-container);
+  border-radius: calc(0.75rem - 2px);
+  white-space: nowrap;
+}
+
+.carousel-pill-icon {
+  font-size: 1.125rem;
+  color: var(--pill-color);
+}
+
+.carousel-pill-name {
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  letter-spacing: 0.02em;
+}
+
+.carousel-pill-count {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  color: var(--pill-color);
+  opacity: 0.8;
+}
+
+/* Neon glow behind each pill */
+.carousel-pill::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 0.75rem;
+  background: conic-gradient(
+    from var(--neon-angle),
+    var(--pill-color) 0%,
+    transparent 25%,
+    var(--pill-color) 50%,
+    transparent 75%,
+    var(--pill-color) 100%
+  );
+  filter: blur(8px);
+  opacity: 0.3;
+  z-index: -1;
+  animation: neon-border-rotate 3s linear infinite;
+}
+
+.carousel-pill:hover::after {
+  opacity: 0.5;
+}
+
+/* Category-specific pill colors */
+.carousel-pill[data-cat="pdf"] {
+  --pill-color: #ff6b6b;
+  --pill-color-dim: #ff6b6b40;
+  --pill-glow: rgba(255, 107, 107, 0.25);
+}
+.carousel-pill[data-cat="image"] {
+  --pill-color: #00cec9;
+  --pill-color-dim: #00cec940;
+  --pill-glow: rgba(0, 206, 201, 0.25);
+}
+.carousel-pill[data-cat="gif"] {
+  --pill-color: #fdcb6e;
+  --pill-color-dim: #fdcb6e40;
+  --pill-glow: rgba(253, 203, 110, 0.25);
+}
+.carousel-pill[data-cat="audio"] {
+  --pill-color: #6c5ce7;
+  --pill-color-dim: #6c5ce740;
+  --pill-glow: rgba(108, 92, 231, 0.25);
+}
+.carousel-pill[data-cat="video"] {
+  --pill-color: #fd79a8;
+  --pill-color-dim: #fd79a840;
+  --pill-glow: rgba(253, 121, 168, 0.25);
+}
+.carousel-pill[data-cat="convert"] {
+  --pill-color: #74b9ff;
+  --pill-color-dim: #74b9ff40;
+  --pill-glow: rgba(116, 185, 255, 0.25);
+}
+.carousel-pill[data-cat="ai"] {
+  --pill-color: #55efc4;
+  --pill-color-dim: #55efc440;
+  --pill-glow: rgba(85, 239, 196, 0.25);
+}
+
+/* Stagger animation delays for visual interest */
+.carousel-pill:nth-child(2) { animation-delay: -0.4s; }
+.carousel-pill:nth-child(2)::after { animation-delay: -0.4s; }
+.carousel-pill:nth-child(3) { animation-delay: -0.8s; }
+.carousel-pill:nth-child(3)::after { animation-delay: -0.8s; }
+.carousel-pill:nth-child(4) { animation-delay: -1.2s; }
+.carousel-pill:nth-child(4)::after { animation-delay: -1.2s; }
+.carousel-pill:nth-child(5) { animation-delay: -1.6s; }
+.carousel-pill:nth-child(5)::after { animation-delay: -1.6s; }
+.carousel-pill:nth-child(6) { animation-delay: -2.0s; }
+.carousel-pill:nth-child(6)::after { animation-delay: -2.0s; }
+.carousel-pill:nth-child(7) { animation-delay: -2.4s; }
+.carousel-pill:nth-child(7)::after { animation-delay: -2.4s; }
+
+/* Responsive */
+@media (max-width: 639px) {
+  .carousel-pill-inner {
+    padding: 0.5rem 1rem;
+  }
+  .carousel-pill-name {
+    font-size: 0.75rem;
+  }
+}
+
+/* ============================================================
+   17. Lottie Logo in Nav
+   ============================================================ */
+.nav-logo-lottie {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
